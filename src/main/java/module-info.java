@@ -1,6 +1,4 @@
 module com.example.demo2 {
-    requires javafx.controls;
-    requires javafx.fxml;
     requires jfxtras.controls;
 
 

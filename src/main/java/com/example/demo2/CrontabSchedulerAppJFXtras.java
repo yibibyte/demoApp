@@ -35,7 +35,7 @@ public class CrontabSchedulerAppJFXtras extends Application {
         vbox.getChildren().addAll(localDateTimePicker, executeButton);
 
         // Создаем сцену
-        Scene scene = new Scene(vbox, 300, 200);
+        Scene scene = new Scene(vbox, 500, 300);
 
         // Устанавливаем сцену и отображаем окно
         primaryStage.setScene(scene);
