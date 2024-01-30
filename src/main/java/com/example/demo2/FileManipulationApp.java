@@ -28,35 +28,35 @@ public class FileManipulationApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("File Manipulation App");
+        primaryStage.setTitle("App");
 
         saveDirectoryTextField = new TextField();
-        saveDirectoryTextField.setPromptText("Select a directory for saving a file...");
+        saveDirectoryTextField.setPromptText("Выбериет директорию для сохранения файла...");
         saveDirectoryTextField.setEditable(false);
 
-        Button chooseSaveDirectoryButton = new Button("Choose Save Directory");
+        Button chooseSaveDirectoryButton = new Button("Выбериет директорию");
         chooseSaveDirectoryButton.setOnAction(e -> chooseSaveDirectory());
 
         defaultSaveDirectoryTextField = new TextField();
-        defaultSaveDirectoryTextField.setPromptText("Enter default save directory...");
+        defaultSaveDirectoryTextField.setPromptText("Уставноить директорию по умолчанию...");
 
         newFileNameTextField = new TextField();
-        newFileNameTextField.setPromptText("Enter new file name...");
+        newFileNameTextField.setPromptText("Введите имя нового файла...");
 
-        Button renameButton = new Button("Rename File");
+        Button renameButton = new Button("Переименовать файл");
         renameButton.setOnAction(e -> renameFile());
 
-        Button deleteButton = new Button("Delete File");
+        Button deleteButton = new Button("Удалить файл");
         deleteButton.setOnAction(e -> deleteFile());
 
         VBox layout = new VBox(10);
         layout.getChildren().addAll(
-                new Label("Choose directory for saving a file:"),
+                new Label("Выбериет директорию для сохранения файла:"),
                 saveDirectoryTextField,
                 chooseSaveDirectoryButton,
-                new Label("Set default save directory:"),
+                new Label("Уставноить директорию по умолчанию:"),
                 defaultSaveDirectoryTextField,
-                new Label("Enter new file name:"),
+                new Label("Введите имя нового файла:"),
                 newFileNameTextField,
                 renameButton,
                 deleteButton
@@ -69,7 +69,7 @@ public class FileManipulationApp extends Application {
 
     private void chooseSaveDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Choose Save Directory");
+        directoryChooser.setTitle("Выберите директорию");
         File selectedDirectory = directoryChooser.showDialog(null);
 
         if (selectedDirectory != null) {
