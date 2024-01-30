@@ -7,11 +7,14 @@ package com.example.demo2.app;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import jfxtras.scene.control.LocalDateTimePicker;
 
 public class AppController implements Initializable {
@@ -52,5 +55,33 @@ public class AppController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         defaultDataTime.setLocalDateTime(LocalDateTime.now());
+    }
+
+    public void handleStartScript(ActionEvent actionEvent) {
+//        startScript.setOnAction(event -> );
+    }
+
+    public void handleSelectDateTime(MouseEvent mouseEvent) {
+    }
+
+    public void handleChooseFileCopy(ActionEvent actionEvent) {
+    }
+
+    public void handleChooseDirectory(ActionEvent actionEvent) {
+    }
+
+    public void handleDeleteFileCopy(ActionEvent actionEvent) {
+    }
+
+    public void handleDefaultDataTime(MouseEvent mouseEvent) {
+    }
+
+    public void handleDefaultPathFolder(ActionEvent actionEvent) {
+    }
+
+    public void handlePathFolder(ActionEvent actionEvent) {
+    }
+
+    public void typeNameBackupCopy(ActionEvent actionEvent) {
     }
 }

@@ -24,15 +24,15 @@ public class CrontabSchedulerAppJFXtras extends Application {
         LocalDateTimePicker localDateTimePicker = new LocalDateTimePicker();
 
         // Метка для отображения выбранного времени
-        Button executeButton = new Button("Execute Crontab");
-        executeButton.setOnAction(event -> {
+        Button startScript = new Button("Execute Crontab");
+        startScript.setOnAction(event -> {
             LocalDateTime selectedDateTime = localDateTimePicker.getLocalDateTime();
             executeCrontabCommand(selectedDateTime);
         });
 
         // Располагаем элементы в VBox
         VBox vbox = new VBox(20);
-        vbox.getChildren().addAll(localDateTimePicker, executeButton);
+        vbox.getChildren().addAll(localDateTimePicker, startScript);
 
         // Создаем сцену
         Scene scene = new Scene(vbox, 500, 300);
