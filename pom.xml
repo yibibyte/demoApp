@@ -87,7 +87,7 @@
                         <id>default-cli</id>
                         <configuration>
 <!--                            <mainClass>com.example.demo2/com.example.demo2.HelloApplication</mainClass>-->
-                            <mainClass>com.example.demo2.App</mainClass>
+                            <mainClass>com.example.demo2.app.App</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

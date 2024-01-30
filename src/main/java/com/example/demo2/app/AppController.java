@@ -1,4 +1,4 @@
-package com.example.demo2;
+package com.example.demo2.app;
 
 /**
  * Sample Skeleton for 'app.fxml' Controller Class
