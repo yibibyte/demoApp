@@ -37,7 +37,8 @@ public class CronTaskExecutor extends Application {
                 Files.write(cronFile, List.of(cronExpression), StandardOpenOption.CREATE);
 
                 // Устанавливаем cron-задачу с помощью crontab
-                ProcessBuilder processBuilder = new ProcessBuilder("crontab", cronFile.toString());
+                ProcessBuilder processBuilder = new ProcessBuilder("crontab.sh", cronFile.toString());
+
                 Process process = processBuilder.start();
                 int exitCode = process.waitFor();
 

@@ -4,13 +4,17 @@ package com.example.demo2.app;
  * Sample Skeleton for 'app.fxml' Controller Class
  */
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -55,13 +59,94 @@ public class AppController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         defaultDataTime.setLocalDateTime(LocalDateTime.now());
+        selectDateTime.setLocalDateTime(LocalDateTime.now());
     }
 
     public void handleStartScript(ActionEvent actionEvent) {
+
+        startScript.setText("Изменили текст кнопки");
+
+//        startScript.setOnAction(actionEvent1 -> {
+//            startScript.setText("Change Button Name");
+//        });
+
 //        startScript.setOnAction(event -> );
+
+        startScript.setOnAction(event -> {
+            String cronDateTime = convertToCronExpression(selectDateTime.getLocalDateTime());
+            System.out.println(cronDateTime);
+
+
+        // Запустить программу в crontab
+
+//                Runtime.getRuntime().exec("echo " + cronDateTime);
+            //ProcessBuilder processBuilder = new ProcessBuilder("echo", cronDateTime);
+//            ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/C", "echo", "This is ProcessBuilder Example from JCG");
+            ProcessBuilder pb = new ProcessBuilder("cmd.exe","/C" , "echo", "This is ProcessBuilder Example ");
+            try {
+                Process process = pb.start();
+                int exitCode = process.waitFor();
+
+                if (exitCode == 0) {
+                    System.out.println("Cron-задача успешно установлена.");
+                } else {
+                    System.err.println("Ошибка при установке cron-задачи.");
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            //            Process process = null;
+//
+//            try {
+//
+//
+//                process = Runtime.getRuntime().exec("echo " + cronDateTime);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            try {
+//
+//                process.waitFor();
+//
+//
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+
+        });
+
     }
 
+    public String convertToCronExpression(LocalDateTime dateTime) {
+        // Метод преобразует LocalDateTime в cron-выражение
+        int minute = dateTime.getMinute();
+        int hour = dateTime.getHour();
+        int dayOfMonth = dateTime.getDayOfMonth();
+        int month = dateTime.getMonthValue();
+        int dayOfWeek = dateTime.getDayOfWeek().getValue();
+        int dayYear = dateTime.getYear();
+
+        // Предположим, что преобразование упрощенное для демонстрации
+        return String.format(Locale.US, "%d %d %d %d %d" ,dayYear, dayOfMonth, month, hour, minute);
+    }
+
+
+
     public void handleSelectDateTime(MouseEvent mouseEvent) {
+
+        String time = null;
+
+        if (time == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,"Вы не выбрали дату или время"); // Предупреждение
+
+        } else {
+
+
+        }
     }
 
     public void handleChooseFileCopy(ActionEvent actionEvent) {
