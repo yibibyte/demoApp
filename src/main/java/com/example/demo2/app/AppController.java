@@ -93,9 +93,7 @@ public class AppController implements Initializable {
                     System.err.println("Ошибка при установке cron-задачи.");
                 }
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
