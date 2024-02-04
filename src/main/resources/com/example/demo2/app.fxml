@@ -28,19 +28,20 @@
         </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <children>
-                <LocalDateTimePicker fx:id="selectDateTime" layoutX="713.0" layoutY="23.0" onDragDetected="#handleSelectDateTime" prefHeight="282.0" prefWidth="307.0" />
-                <Button fx:id="startScript" layoutX="416.0" layoutY="531.0" mnemonicParsing="false" onAction="#handleStartScript" prefHeight="56.0" prefWidth="228.0" text="Выполнить сценарий резервное копирование" textAlignment="CENTER" wrapText="true" />
-                <Button fx:id="chooseFileCopy" layoutX="41.0" layoutY="242.0" mnemonicParsing="false" onAction="#handleChooseFileCopy" prefHeight="47.0" prefWidth="200.0" text="Выбрать резервную копию" />
-                <Button fx:id="chooseDirectory" layoutX="90.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleChooseDirectory" prefHeight="30.0" prefWidth="165.0" text="Выбрать директорию" />
-                <Button fx:id="deleteFileCopy" layoutX="82.0" layoutY="536.0" mnemonicParsing="false" onAction="#handleDeleteFileCopy" prefHeight="47.0" prefWidth="156.0" text="Удалить копию" />
-                <LocalDateTimePicker fx:id="defaultDataTime" layoutX="713.0" layoutY="311.0" onDragDetected="#handleDefaultDataTime" prefHeight="282.0" prefWidth="307.0" />
+                <LocalDateTimePicker fx:id="selectDateTime" layoutX="692.0" layoutY="23.0" onDragDetected="#handleSelectDateTime" prefHeight="292.0" prefWidth="331.0" />
+                <Button fx:id="startScript" layoutX="736.0" layoutY="468.0" mnemonicParsing="false" onAction="#handleStartScript" prefHeight="56.0" prefWidth="269.0" text="Выполнить сценарий резервное копирование" textAlignment="CENTER" wrapText="true" />
+                <Button fx:id="chooseFileCopy" layoutX="52.0" layoutY="242.0" mnemonicParsing="false" onAction="#handleChooseFileCopy" prefHeight="47.0" prefWidth="225.0" text="Выбрать резервную копию" />
+                <Button fx:id="chooseDirectory" layoutX="41.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleChooseDirectory" prefHeight="30.0" prefWidth="165.0" text="Выбрать директорию" />
+                <Button fx:id="deleteFileCopy" layoutX="735.0" layoutY="331.0" mnemonicParsing="false" onAction="#handleDeleteFileCopy" prefHeight="56.0" prefWidth="269.0" text="Удалить копию" />
                 <CheckBox fx:id="defaultPathFolder" layoutX="52.0" layoutY="107.0" mnemonicParsing="false" onAction="#handleDefaultPathFolder" text="Сделатть по умолчанию для всех копий" />
-                <TextField fx:id="pathFolder" layoutX="52.0" layoutY="63.0" onAction="#handlePathFolder" prefHeight="30.0" prefWidth="524.0" />
+                <TextField fx:id="pathFolder" layoutX="42.0" layoutY="63.0" onAction="#handlePathFolder" prefHeight="30.0" prefWidth="534.0" />
                 <TextField fx:id="nameBackupCopy" layoutX="41.0" layoutY="198.0" onAction="#typeNameBackupCopy" prefHeight="30.0" prefWidth="524.0" />
-                <Label fx:id="labelPath" layoutX="52.0" layoutY="32.0" prefHeight="20.0" prefWidth="251.0" text="Путь к директории резервных копий:" />
-            <ComboBox layoutX="37.0" layoutY="305.0" prefHeight="30.0" prefWidth="165.0" />
-            <ListView layoutX="299.0" layoutY="265.0" prefHeight="200.0" prefWidth="200.0" />
-            <Label fx:id="labelPath1" layoutX="274.0" layoutY="236.0" prefHeight="20.0" prefWidth="251.0" text="Список всех файлов резервных копий" />
+                <Label fx:id="labelPath" layoutX="41.0" layoutY="32.0" prefHeight="20.0" prefWidth="251.0" text="Путь к директории резервных копий:" />
+            <ListView fx:id="listView" layoutX="41.0" layoutY="325.0" onEditStart="#onActionStartListView" prefHeight="262.0" prefWidth="629.0" />
+            <Label fx:id="labelPath1" layoutX="41.0" layoutY="295.0" prefHeight="20.0" prefWidth="251.0" text="Список всех файлов резервных копий" />
+            <Button fx:id="startAutoScript" layoutX="736.0" layoutY="400.0" mnemonicParsing="false" onAction="#onActionStartAutoScript" prefHeight="56.0" prefWidth="269.0" text="Выполнить сценарий автозапуск резервное копирование" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="renameFile" layoutX="314.0" layoutY="242.0" mnemonicParsing="false" onAction="#handleRenameFile" prefHeight="47.0" prefWidth="242.0" text="Переименовать файл" />
+            <Button fx:id="startScriptCopy" layoutX="735.0" layoutY="538.0" mnemonicParsing="false" onAction="#handleStartScriptCopy" prefHeight="56.0" prefWidth="269.0" text="Выполнить запуск ранее созданными резервное копирование" textAlignment="CENTER" wrapText="true" />
             </children>
         </AnchorPane>
     </children>

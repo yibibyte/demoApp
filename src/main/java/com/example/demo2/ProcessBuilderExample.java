@@ -3,7 +3,10 @@ package com.example.demo2;
 import java.io.IOException;
 
 /**
- * Исполнение команд
+ * Исполнение команд с помощью
+ * ProcessBuilder
+ * @author G.I.V.
+ * @since {@code }
  */
 public class ProcessBuilderExample {
     public static void main(String[] args) throws IOException {
@@ -29,6 +32,9 @@ public class ProcessBuilderExample {
 
         ProcessBuilder processBuilder = new ProcessBuilder("java", "-version");
         Process process = processBuilder.start();
+
+
+
 
 //
 //        builderBat.command("");
