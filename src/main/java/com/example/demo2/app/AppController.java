@@ -128,7 +128,7 @@ public class AppController implements Initializable {
                 alert.showAndWait();
             } else {
 
-                String command = "tar -czf backup_$(date +%Y%m%d_%H%M%S).tar.gz " + pathFolder;
+                String command = "tar -czf backup_$(date +%Y%m%d_%H%M%S).tar.gz " + pathFolder.getText();
 
                 // + Отчет или же альтернатива готовый bash скрипт
                 // TODO Добавить в command еще команду для формирования отчета:  + echo "Backup created on $(date)" >> backup_report.txt
