@@ -95,14 +95,14 @@ public class AppController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //defaultDataTime.setLocalDateTime(LocalDateTime.now());
         selectDateTime.setLocalDateTime(LocalDateTime.now());
     }
+
 
     /**
      * Метод для обработки события кнопки.
      *
-     * @param actionEvent Событие кнопки.
+     * @param actionEvent
      */
     public void handleStartScript(ActionEvent actionEvent) {
 
@@ -145,6 +145,7 @@ public class AppController implements Initializable {
 
                 try {
                     ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
+                    // ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", "tar -czf backup_$(date +%Y%m%d_%H%M%S).tar.gz " + pathFolder.getText());
                     Process process = processBuilder.start();
 
                     int exitCode = process.waitFor();
@@ -164,35 +165,6 @@ public class AppController implements Initializable {
                 }
             }
 
-
-//            ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/C", "echo", cronDateTime);
-//            try {
-//
-//                /**
-//                 * Метод start для запуска команды
-//                 * @param у метода нет параметров
-//                 * @return метод возвращает Process для запуска исполнение команд
-//                 */
-//                Process process = pb.start();
-//                int exitCode = process.waitFor();
-//
-//                if (exitCode == 0) {
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Команда резервного копирования выполнена успешно");
-//                    alert.setHeaderText("Внимание");
-//                    alert.showAndWait();
-//                    System.out.println("Команда резервного копирования выполнена успешно.");
-//                } else {
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Ошибка выполнения команды резервного копирования");
-//                    alert.setHeaderText("Ошибка");
-//                    alert.showAndWait();
-//                    System.out.println("Ошибка выполнения команды резервного копирования.");
-//                }
-//
-//            } catch (IOException | InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-
-
         }
 
     }
@@ -207,7 +179,7 @@ public class AppController implements Initializable {
     //
     public String convertToCronExpression(LocalDateTime dateTime) {
 
-        // День недели на не нужен так как у нам нужны только год, месяц, число, часы и минуты, которые пользоватлеь будет вводить пользователь
+        // День недели нам не нужен, так как нам нужны только год, месяц, число, часы и минуты, которые пользователь будет вводить
         /**
          * Метод convertToCronExpression Метод преобразует LocalDateTime в cron-выражение
          * @param dateTime передаем в наш метод, и это параметр это объект нашего календаря типа LocalDateTimePicker,
@@ -256,7 +228,15 @@ public class AppController implements Initializable {
             // Показываем путь к файлу в Текстовом поле TextField
             nameBackupCopy.setText(selectedFile.getAbsolutePath());
 
-            // Получаем директорию, к которой принадлежит выбранный файл
+        /**
+         * Получаем директорию, к которой принадлежит выбранный файл
+         * Объект типо File может быть одновременно как файлом в файловой системе, так и директорией(папкой)
+         * Для того чтобы понять с чем мы работаем, есть методы на утверждение parentDirectory.isFile() и parentDirectory.isDirectory()
+         * Ранне все было файл один единственный объект parentDirectory в нашем случае является директорией
+         * В Java, метод getParentFile() является частью класса File
+         * и используется для получения объекта типа File, представляющего родительскую директорию данного файла
+         */
+
             File parentDirectory = selectedFile.getParentFile();
 
             // Получаем список файлов в этой директории
@@ -282,8 +262,10 @@ public class AppController implements Initializable {
             System.out.println("Выбор файла отменен");
         }
     }
+
     /**
      * Выбор директории для
+     *
      * @param actionEvent
      */
     public void handleChooseDirectory(ActionEvent actionEvent) {
@@ -303,6 +285,7 @@ public class AppController implements Initializable {
             System.out.println("Выбор файла отменен");
         }
     }
+
     /**
      * Удаление резервной копии
      */
@@ -389,7 +372,62 @@ public class AppController implements Initializable {
                 alert.showAndWait();
             } else {
 
-                String command = "bash backup.sh";
+                String command = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz " + pathFolder.getText();
+
+//                echo "Backup created on $(date)" >> backup_report.txt
+//                du - sh / path / to / backup >> backup_report.txt
+
+
+                // + Отчет или же альтернатива готовый bash скрипт
+                // TODO Добавить в command еще команду для формирования отчета:  + echo "Backup created on $(date)" >> backup_report.txt
+                // смотри файл backup.sh в проекте
+                //   ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
+                // ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", "tar -czf backup_$(date +%Y%m%d_%H%M%S).tar.gz " + pathFolder.getText());
+
+/*
+
+                // Строка с командами для выполнения в bash
+                String bashCommands = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz /path/to/directory && " +
+                        "echo \"Backup created on $(date)\" >> backup_report.txt && " +
+                        "du -sh /path/to/backup >> backup_report.txt";
+
+                // Создание объекта ProcessBuilder с использованием списка команд
+                ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", bashCommands);
+
+*/
+
+
+                /**
+                 *  Нужно загнать в массив все строки, чтобы получился массив строк с помощью Arrays.asList() передать как параметр в new ProcessBuilder()
+                 *  для исполнения
+                 */
+
+                /*
+
+                // Команда для создания архива с резервной копией
+                String tarCommand = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz /path/to/directory";
+
+                // Команда для добавления информации в файл отчета о резервном копировании
+                String echoCommand = "echo \"Backup created on $(date)\" >> backup_report.txt";
+
+                // Команда для добавления размера резервной копии в файл отчета
+                String duCommand = "du -sh /path/to/backup >> backup_report.txt";
+
+                // Создание объекта ProcessBuilder с использованием списка команд
+                ProcessBuilder processBuilder = new ProcessBuilder(Arrays.asList("bash", "-c", tarCommand + " && " + echoCommand + " && " + duCommand));
+
+                // Запуск процесса
+                Process process = processBuilder.start();
+
+                // Ожидание завершения процесса
+                int exitCode = process.waitFor();
+
+                 */
+
+
+
+
+                //String command = "bash backup.sh";
 
                 try {
                     ProcessBuilder processBuilderBASH = new ProcessBuilder("bash", "-c", command);
@@ -415,6 +453,7 @@ public class AppController implements Initializable {
             }
 
 
+//              Для Windows
 //            ProcessBuilder pbCMD = new ProcessBuilder("cmd.exe", "/C", "echo", cronDateTime);
 //            try {
 //
@@ -445,6 +484,7 @@ public class AppController implements Initializable {
 
         }
     }
+
     /**
      * Переименование файла
      */
@@ -520,9 +560,10 @@ public class AppController implements Initializable {
 //            System.out.println("Введите путь к файлу.");
 //        }
     }
-/**
- * Запуск резервного копирования в текущий момент
- */
+
+    /**
+     * Запуск резервного копирования в текущий момент
+     */
     public void handleStartScriptCopy(ActionEvent actionEvent) {
         if (selectDateTime.getLocalDateTime() == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Вы не выбрали дату или время");
