@@ -11,8 +11,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * <h1> Использование Cron в Controller</h1>
- *
  * @author G.I.V.
  * @version 1.0
  * @since 2024-01-29
@@ -25,6 +23,9 @@ public class CronJobController {
     @FXML
     private TextField dateField;
 
+    /**
+     * @throws IOException
+     */
     public void onRun() throws IOException {
 
         Calendar calendar = Calendar.getInstance();

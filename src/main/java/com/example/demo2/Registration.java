@@ -21,7 +21,13 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
 
+/**
+ *
+ */
 public class Registration extends Application {
+    /**
+     * @param stage
+     */
     @Override
     public void start(Stage stage) {
         //Label for name
@@ -156,6 +162,10 @@ public class Registration extends Application {
         //Displaying the contents of the stage
         stage.show();
     }
+
+    /**
+     * @param args
+     */
     public static void main(String args[]){
         launch(args);
     }

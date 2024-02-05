@@ -10,6 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+/**
+ *
+ */
 public class PleaseProvideControllerClassName {
 
     @FXML // ResourceBundle that was given to the FXMLLoader
@@ -29,6 +32,13 @@ public class PleaseProvideControllerClassName {
 
     @FXML // fx:id="textFiledChooseDirectory"
     private TextField textFiledChooseDirectory; // Value injected by FXMLLoader
+
+    /**
+     * @param resources
+     */
+    public PleaseProvideControllerClassName(ResourceBundle resources) {
+        this.resources = resources;
+    }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {

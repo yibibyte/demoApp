@@ -8,8 +8,14 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.List;
 
+/**
+ *
+ */
 public class FileAndDirectoryChooserExample extends Application {
 
+    /**
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -54,6 +60,9 @@ public class FileAndDirectoryChooserExample extends Application {
         }
     }
 
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }

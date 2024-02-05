@@ -10,12 +10,21 @@ import jfxtras.scene.control.LocalDateTimePicker;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * CrontabSchedulerAppJFXtras
+ */
 public class CrontabSchedulerAppJFXtras extends Application {
 
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Crontab Scheduler (JFXtras)");

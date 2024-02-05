@@ -15,6 +15,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+/**
+ * FileManipulationApp
+ */
 public class FileManipulationApp extends Application {
 
     private File selectedFile;
@@ -22,10 +25,17 @@ public class FileManipulationApp extends Application {
     private TextField defaultSaveDirectoryTextField;
     private TextField newFileNameTextField;
 
+    /**
+     * @param args
+     */
+
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("App");
@@ -67,6 +77,9 @@ public class FileManipulationApp extends Application {
         primaryStage.show();
     }
 
+    /**
+     *
+     */
     private void chooseSaveDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Выберите директорию");
@@ -77,6 +90,9 @@ public class FileManipulationApp extends Application {
         }
     }
 
+    /**
+     *
+     */
     private void renameFile() {
         String newFileName = newFileNameTextField.getText();
         String saveDirectory = saveDirectoryTextField.getText();
@@ -99,6 +115,9 @@ public class FileManipulationApp extends Application {
         }
     }
 
+    /**
+     *
+     */
     private void deleteFile() {
         if (selectedFile != null && selectedFile.exists()) {
             try {
@@ -114,6 +133,9 @@ public class FileManipulationApp extends Application {
         }
     }
 
+    /**
+     * @param message
+     */
     private void displayErrorMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");

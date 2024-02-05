@@ -9,6 +9,11 @@ import java.io.IOException;
  * @since {@code }
  */
 public class ProcessBuilderExample {
+
+    /**
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
 
 //        // Создать объект ProcessBuilder с указанием имени сценария bash-скрипта и аргументов

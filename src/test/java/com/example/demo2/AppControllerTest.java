@@ -9,8 +9,7 @@ import jfxtras.scene.control.LocalDateTimePicker;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+@Deprecated
 class AppControllerTest {
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;

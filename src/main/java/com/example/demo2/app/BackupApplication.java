@@ -24,10 +24,16 @@ public class BackupApplication extends Application {
     private String backupDateTime;
     private String backupSize;
 
+/**
+ * Точка входа в приложения
+ */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Backup Application");

@@ -1,11 +1,10 @@
 package com.example.demo2;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+@Deprecated
 class ProcessBuilderExampleTest {
 
-    @Test
-    void main() {
-    }
+//    @Test
+//    void main() {
+//
+//    }
 }

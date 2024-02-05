@@ -23,7 +23,7 @@ import jfxtras.scene.control.LocalDateTimePicker;
 
 /**
  * @author G.I.V.
- * @description класс AppController Контроллер для связвания UI, то есть нашей заготовки app.fxml с JavaFX элементами(компонентами) в java
+ * класс AppController Контроллер для связвания UI, то есть нашей заготовки app.fxml с JavaFX элементами(компонентами) в java
  * fx:id в app.fxml должен быть равен названию перемной Элемента (к примеру экземпляру Button)
  * Так же класс Контроллер служит для обработки собитий по нажатию этих элементов
  * @since {@code }
@@ -32,13 +32,22 @@ public class AppController implements Initializable {
 
     private Stage stage;
 
+    /**
+     * @param stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Start Script Copy
+     */
     @FXML
     public Button startScriptCopy;
 
+    /**
+     * Rename of File
+     */
     @FXML
     private Button renameFile;
 
@@ -220,10 +229,13 @@ public class AppController implements Initializable {
         return String.format(Locale.US, "%d %d %d %d %d", dayYear, dayOfMonth, month, hour, minute);
     }
 
-
+    @SuppressWarnings("javadoc")
     public void handleSelectDateTime(MouseEvent mouseEvent) {
     }
 
+    /**
+     * @param actionEvent
+     */
     public void handleChooseFileCopy(ActionEvent actionEvent) {
         // Выбор файла
 
@@ -270,15 +282,15 @@ public class AppController implements Initializable {
             System.out.println("Выбор файла отменен");
         }
     }
-
+    /**
+     * Выбор директории для
+     * @param actionEvent
+     */
     public void handleChooseDirectory(ActionEvent actionEvent) {
 
         // Выбор файла
-
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Выберите файл");
-
-        // Показываем окно выбора файла
 
         Stage directoryStage = new Stage();
         File chooseFileCopy = directoryChooser.showDialog(directoryStage);
@@ -291,7 +303,9 @@ public class AppController implements Initializable {
             System.out.println("Выбор файла отменен");
         }
     }
-
+    /**
+     * Удаление резервной копии
+     */
     public void handleDeleteFileCopy(ActionEvent actionEvent) {
         String filePath = nameBackupCopy.getText();
 
@@ -314,21 +328,35 @@ public class AppController implements Initializable {
 
     }
 
+    /**
+     * @param actionEvent
+     */
     public void handleDefaultPathFolder(ActionEvent actionEvent) {
 
     }
 
+    /**
+     * @param actionEvent
+     */
     public void handlePathFolder(ActionEvent actionEvent) {
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void onActionStartListView(ActionEvent event) {
-
     }
 
+    /**
+     * @param actionEvent
+     */
     public void typeNameBackupCopy(ActionEvent actionEvent) {
     }
 
+    /**
+     * Запуск автоматизированного скрипта с периодичностью по времени
+     */
     public void onActionStartAutoScript(ActionEvent actionEvent) {
 
         if (selectDateTime.getLocalDateTime() == null) {
@@ -417,7 +445,9 @@ public class AppController implements Initializable {
 
         }
     }
-
+    /**
+     * Переименование файла
+     */
     public void handleRenameFile(ActionEvent actionEvent) {
 
         File selectedFile = new File(nameBackupCopy.getText());
@@ -490,7 +520,9 @@ public class AppController implements Initializable {
 //            System.out.println("Введите путь к файлу.");
 //        }
     }
-
+/**
+ * Запуск резервного копирования в текущий момент
+ */
     public void handleStartScriptCopy(ActionEvent actionEvent) {
         if (selectDateTime.getLocalDateTime() == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Вы не выбрали дату или время");

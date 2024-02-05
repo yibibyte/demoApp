@@ -13,12 +13,20 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
+/**
+ * CronTaskExecutor
+ */
 public class CronTaskExecutor extends Application {
-
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Cron Task Executor");
@@ -62,7 +70,9 @@ public class CronTaskExecutor extends Application {
         primaryStage.show();
     }
 
-    // Преобразование LocalDateTime в строку с cron-выражением
+    /**
+     * Преобразование LocalDateTime в строку с cron-выражением
+     */
     private String convertToCronExpression(java.time.LocalDateTime dateTime) {
         int minute = dateTime.getMinute();
         int hour = dateTime.getHour();

@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 //import java.util.prefs.Preferences;
 
 import java.io.File;
-
+@SuppressWarnings("javadoc")
 public class FileDirectoryChooser /*extends Application*/ {
     /*
     private Preferences preferences;

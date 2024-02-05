@@ -12,12 +12,21 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+/**
+ *
+ */
 public class CronTask extends Application {
 
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Cron Задача");
@@ -49,7 +58,9 @@ public class CronTask extends Application {
         primaryStage.show();
     }
 
-    // Преобразование LocalDateTime в строку с cron-выражением
+    /**
+     * Преобразование LocalDateTime в строку с cron-выражением
+     */
     private String convertToCronExpression(LocalDateTime dateTime) {
         // Метод преобразует LocalDateTime в cron-выражение
         int minute = dateTime.getMinute();

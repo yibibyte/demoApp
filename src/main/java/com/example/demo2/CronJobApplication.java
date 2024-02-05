@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@SuppressWarnings("javadoc")
 public class CronJobApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -21,6 +22,10 @@ public class CronJobApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }

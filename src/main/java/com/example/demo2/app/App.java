@@ -9,21 +9,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * @description Sample Skeleton for 'app.fxml' Controller Class
+ * Sample Skeleton for 'app.fxml' Controller Class
  * @author G.I.V.
  * @since {@code }
- * @return Результат выполнения метода.
  * @since 1.0
  * @version 1.0
  */
 public class App extends Application {
 
     /**
-     * @description start метод запуска приложения
+     * start метод запуска приложения
      * @author G.I.V.
      * @since {@code }
      * @param stage Параметр метода start для какого окна запускается приложения
-     * @return Результат выполнения метода ничего не возвращает так как void, а значит просто запускает приложения.
+     * Результат выполнения метода ничего не возвращает так как void, а значит просто запускает приложения.
      * @since 2.0
      */
     @Override
@@ -43,7 +42,7 @@ public class App extends Application {
      * @author G.I.V.
      * @since {@code }
      *
-     * @description Метод public static void main(String[] args) является точкой входа в программу в языке Java.
+     * Метод public static void main(String[] args) является точкой входа в программу в языке Java.
      * Он используется для запуска Java приложения, именно этот метод вызывается при запуске программы.
      * В метод main передаются аргументы командной строки в виде массива строк (String[] args),
      * который содержит параметры, переданные программе при ее запуске.
@@ -61,7 +60,7 @@ public class App extends Application {
      * java App arg1 arg2 arg3
      *
      * @param args массив аргументов, которые подаются на вход методу main, если нужно запускать нашу программу дополнительными параметрами
-     * @return Результат выполнения метода ничего не возвращает так как void, а значит просто запускает приложения.
+     * Результат выполнения метода ничего не возвращает так как void, а значит просто запускает приложения.
      */
     public static void main(String[] args) {
         launch();
