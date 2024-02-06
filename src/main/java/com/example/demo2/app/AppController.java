@@ -169,36 +169,23 @@ public class AppController implements Initializable {
 
     }
 
+    // День недели нам не нужен, так как нам нужны только год, месяц, число, часы и минуты, которые пользователь будет вводить
     /**
      * Метод convertToCronExpression Метод преобразует LocalDateTime в cron-выражение
-     *
      * @param dateTime передаем в наш метод, и это параметр это объект нашего календаря типа LocalDateTimePicker,
-     *                 который отдает нам LocalDateTime dateTime, где мы его уже переводим в int для работы подстановки в cron
+     * который отдает нам LocalDateTime dateTime, где мы его уже переводим в int для работы подстановки в cron
      * @return метод возвращает Process для запуска исполнение команд
      */
     //
     public String convertToCronExpression(LocalDateTime dateTime) {
 
-        // День недели нам не нужен, так как нам нужны только год, месяц, число, часы и минуты, которые пользователь будет вводить
-        /**
-         * Метод convertToCronExpression Метод преобразует LocalDateTime в cron-выражение
-         * @param dateTime передаем в наш метод, и это параметр это объект нашего календаря типа LocalDateTimePicker,
-         * который отдает нам LocalDateTime dateTime, где мы его уже переводим в int для работы подстановки в cron
-         * @return метод возвращает Process для запуска исполнение команд
-         */
-        int minute = dateTime.getMinute();
+        String minute = String.valueOf(dateTime.getMinute());
+        String hour = String.valueOf(dateTime.getHour());
+        String day = String.valueOf(dateTime.getDayOfMonth());
+        String month = String.valueOf(dateTime.getMonth());
+        String year = String.valueOf(dateTime.getYear());
 
-//        String min = String.valueOf(minute);
-//        String min = String.valueOf(dateTime.getMinute());
-
-        int hour = dateTime.getHour();
-        int dayOfMonth = dateTime.getDayOfMonth();
-        int month = dateTime.getMonthValue();
-        //int dayOfWeek = dateTime.getDayOfWeek().getValue();
-        int dayYear = dateTime.getYear();
-
-        // Предположим, что преобразование упрощенное для демонстрации
-        return String.format(Locale.US, "%d %d %d %d %d", dayYear, dayOfMonth, month, hour, minute);
+        return  year + "_" + month + "_" + day + "_" + hour + "_" + minute;
     }
 
     @SuppressWarnings("javadoc")
@@ -237,6 +224,7 @@ public class AppController implements Initializable {
          * и используется для получения объекта типа File, представляющего родительскую директорию данного файла
          */
 
+        //
             File parentDirectory = selectedFile.getParentFile();
 
             // Получаем список файлов в этой директории
@@ -374,8 +362,18 @@ public class AppController implements Initializable {
 
                 String command = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz " + pathFolder.getText();
 
-//                echo "Backup created on $(date)" >> backup_report.txt
-//                du - sh / path / to / backup >> backup_report.txt
+                /**             Команды для отчета
+                # Формирование отчета о создании копии
+                echo "Backup created on $(date)" >> backup_report.txt
+                du -sh /path/to/backup >> backup_report.txt
+                */
+
+                /**     TODO  Сделать CRON
+                 *
+                 *      !!!!! CRON !!!!
+                 *      Добавление задачи по крону и там же должна быть задача по выводу отчет когда будет делаться резервное копирование
+                 *
+                 */
 
 
                 // + Отчет или же альтернатива готовый bash скрипт
@@ -425,8 +423,6 @@ public class AppController implements Initializable {
                  */
 
 
-
-
                 //String command = "bash backup.sh";
 
                 try {
@@ -453,34 +449,9 @@ public class AppController implements Initializable {
             }
 
 
-//              Для Windows
+//            ProcessBuilder для Windows
 //            ProcessBuilder pbCMD = new ProcessBuilder("cmd.exe", "/C", "echo", cronDateTime);
 //            try {
-//
-//                /**
-//                 * Метод start для запуска команды
-//                 * @param у метода нет параметров
-//                 * @return метод возвращает Process для запуска исполнение команд
-//                 */
-//                Process process = pbCMD.start();
-//                int exitCode = process.waitFor();
-//
-//                if (exitCode == 0) {
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Команда резервного копирования выполнена успешно");
-//                    alert.setHeaderText("Внимание");
-//                    alert.showAndWait();
-//                    System.out.println("Команда резервного копирования выполнена успешно.");
-//                } else {
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Ошибка выполнения команды резервного копирования");
-//                    alert.setHeaderText("Ошибка");
-//                    alert.showAndWait();
-//                    System.out.println("Ошибка выполнения команды резервного копирования.");
-//                }
-//
-//            } catch (IOException | InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-
 
         }
     }
