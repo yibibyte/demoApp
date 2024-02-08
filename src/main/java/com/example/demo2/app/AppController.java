@@ -461,25 +461,45 @@ public class AppController implements Initializable {
      */
     public void handleRenameFile(ActionEvent actionEvent) {
 
-        File selectedFile = new File(nameBackupCopy.getText());
+        File oldFile = new File(nameBackupCopy.getText());
         if (nameBackupCopy.getText() != null) {
             String newName = nameBackupCopy.getText();
-            File newFile = new File(selectedFile.getParent(), newName);
+            File newFile = new File(oldFile.getParent(), newName);
 
-            if (selectedFile.renameTo(newFile)) {
+            if (oldFile.renameTo(newFile)) {
                 System.out.println("Файл успешно переименован в: " + newFile.getAbsolutePath());
             } else {
                 System.out.println("Не удалось переименовать файл.");
             }
         }
 
-        if (selectedFile != null) {
+        // Создание текстового поля для ввода нового имени файла
+
+        TextField newFileNameTextField = new TextField();
+        // Создание кнопки для запуска процесса переименования файла
+        Button renameButton = new Button("Переименовать файл");
+
+        // Логика для переименования файла при нажатии кнопки
+        renameButton.setOnAction(event -> {
+            String newFileName = newFileNameTextField.getText(); // Получаем новое имя файла из текстового поля
+
+            File newFile = new File(oldFile.getParent(), newFileName); // Создаем новый объект File с новым именем в той же директории
+
+            if (oldFile.renameTo(newFile)) { // Пытаемся переименовать файл
+                System.out.println("Файл успешно переименован.");
+            } else {
+                System.out.println("Не удалось переименовать файл.");
+            }
+        });
+
+/*
+        if (newFileNameTextField != null) {
 
             // Показываем путь к файлу в Текстовом поле TextField
-            nameBackupCopy.setText(selectedFile.getAbsolutePath());
+            nameBackupCopy.setText(newFile.getAbsolutePath());
 
             // Получаем директорию, к которой принадлежит выбранный файл
-            File parentDirectory = selectedFile.getParentFile();
+            File parentDirectory = newFile.getParentFile();
 
             // Получаем список файлов в этой директории
             File[] filesInDirectory = parentDirectory.listFiles();
@@ -499,10 +519,10 @@ public class AppController implements Initializable {
             }
 
 
-            System.out.println("Выбранный файл: " + selectedFile.getAbsolutePath());
+            System.out.println("Выбранный файл: " + newFile.getAbsolutePath());
         } else {
             System.out.println("Нет файла для переименования");
-        }
+        }*/
 
 
 //        String currentFilePath = nameBackupCopy.getText();
