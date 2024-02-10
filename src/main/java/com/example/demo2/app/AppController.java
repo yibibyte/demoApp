@@ -137,11 +137,22 @@ public class AppController implements Initializable {
                 alert.showAndWait();
             } else {
 
-                String command = "tar -czf backup_$(date +%Y%m%d_%H%M%S).tar.gz " + pathFolder.getText();
+                //String command = "tar -czf backup_$(date +%Y%m%d_%H%M%S).tar.gz " + pathFolder.getText();
+                //String command = "sudo tar -zcvf /etc-`date '+%F'`.tar.gz " + pathFolder.getText();
+                //String command = "sudo tar -zcvf /etc-$(date +%F).tar.gz " + pathFolder.getText();
+
+                String command = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz /path/to/backup_directory; echo \"Архив создан $(date)\" >> backup_report.txt; du -sh /path/to/backup_directory >> backup_report.txt";
+
 
                 // + Отчет или же альтернатива готовый bash скрипт
                 // TODO Добавить в command еще команду для формирования отчета:  + echo "Backup created on $(date)" >> backup_report.txt
                 // смотри файл backup.sh в проекте
+
+//                # Формирование отчета о создании копии
+//                echo "Backup created on $(date)" >> backup_report.txt
+//                du -sh /path/to/backup_directory >> backup_report.txt
+
+
 
                 try {
                     ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
@@ -163,6 +174,33 @@ public class AppController implements Initializable {
                 } catch (IOException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+
+
+/*
+                String command1 = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz /path/to/backup_directory";
+                String command2 = "echo \"Backup created on $(date)\" >> backup_report.txt";
+                String command3 = "du -sh /path/to/backup_directory >> backup_report.txt";
+
+                try {
+                    ProcessBuilder pb1 = new ProcessBuilder("bash", "-c", command1);
+                    Process process1 = pb1.start();
+
+                    ProcessBuilder pb2 = new ProcessBuilder("bash", "-c", command2);
+                    Process process2 = pb2.start();
+
+                    ProcessBuilder pb3 = new ProcessBuilder("bash", "-c", command3);
+                    Process process3 = pb3.start();
+
+                    int exitCode1 = process1.waitFor();
+                    int exitCode2 = process2.waitFor();
+                    int exitCode3 = process3.waitFor();
+
+                    if (exitCode1 != 0 || exitCode2 != 0 || exitCode3 != 0) {
+                        System.out.println("Ошибка при выполнении команды");
+                    }
+
+*/
+
             }
 
         }
@@ -205,7 +243,7 @@ public class AppController implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(stage);
 
         // Добавление фильтра в окно FileChoose
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("tar files (*.tar.gz)", "*.tar.gz");
         fileChooser.getExtensionFilters().add(extFilter);
 
         //File selectedFile = fileChooser.showOpenDialog(null);
@@ -234,7 +272,7 @@ public class AppController implements Initializable {
                 // Получаем имена файлов
                 List<String> fileNames = new ArrayList<>();
                 for (File file : filesInDirectory) {
-                    if (file.isFile()) {
+                    if (file.isFile() && file.getName().endsWith(".tar.gz")) {
                         fileNames.add(file.getName());
                     }
                 }
@@ -253,6 +291,86 @@ public class AppController implements Initializable {
 
             System.out.println("Выбор файла отменен");
         }
+
+
+        /*
+
+
+        // Создается объект FileChooser с именем fileChooser. FileChooser - это класс в JavaFX, который позволяет пользователю выбрать файл или директорию на компьютере.
+        FileChooser fileChooser = new FileChooser();
+
+        // Метод setTitle() устанавливает заголовок диалогового окна выбора файла. В данном случае, заголовок установлен как "Выберите файл".
+        fileChooser.setTitle("Выберите файл");
+
+        // Метод showOpenDialog() отображает диалоговое окно выбора файла. Если пользователь выбирает файл, метод возвращает объект File, представляющий выбранный файл. Если пользователь отменяет выбор файла, метод возвращает null.
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        // Создается объект ExtensionFilter с именем extFilter. ExtensionFilter - это класс в JavaFX, который позволяет ограничить выбор файлов определенным расширением. В данном случае, фильтр ограничивает выбор файлов с расширением .tar.gz.
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("tar files (*.tar.gz)", "*.tar.gz");
+
+        // Метод getExtensionFilters() возвращает список фильтров, которые применяются к диалоговому окну выбора файла. Метод add() добавляет новый фильтр в этот список.
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Если выбранный файл не равен null, то выполняется блок кода. Это означает, что пользователь выбрал файл.
+        if (selectedFile != null) {
+
+        // Метод getAbsolutePath() возвращает абсолютный путь к выбранному файлу. Этот путь затем устанавливается в текстовое поле nameBackupCopy.
+        nameBackupCopy.setText(selectedFile.getAbsolutePath());
+
+        // Метод getParentFile() возвращает родительскую директорию выбранного файла.
+        File parentDirectory = selectedFile.getParentFile();
+
+        // Метод listFiles() возвращает массив файлов в родительской директории. Если родительская директория пуста, метод возвращает null.
+        File[] filesInDirectory = parentDirectory.listFiles();
+
+        // Если массив файлов не равен null, то выполняется блок кода. Это означает, что в родительской директории есть файлы.
+        if (filesInDirectory != null) {
+
+        // Создается список fileNames для хранения имен файлов.
+        List<String> fileNames = new ArrayList<>();
+
+        // Используется цикл for для перебора всех файлов в родительской директории.
+        for (File file : filesInDirectory) {
+
+        // Если файл является файлом (а не директорией), его имя добавляется в список fileNames.
+        if (file.isFile()) {
+        fileNames.add(file.getName());
+        }
+    }
+
+        // Создается список fileList, который является ObservableList. ObservableList - это специальный тип списка в JavaFX, который позволяет автоматически обновлять пользовательский интерфейс при изменении списка.
+        ObservableList<String> fileList = FXCollections.observableArrayList(fileNames);
+
+        // Метод setItems() устанавливает список элементов для ListView. ListView - это компонент пользовательского интерфейса в JavaFX, который отображает список элементов.
+        listView.setItems(fileList);
+        }
+
+        // Выводится сообщение "Выбранный файл: " и абсолютный путь к выбранному файлу в консоль.
+        System.out.println("Выбранный файл: " + selectedFile.getAbsolutePath());
+        } else {
+        // Если выбранный файл равен null, то выполняется блок кода. Это означает, что пользователь отменил выбор файла.
+
+        // Создается объект Alert с типом Alert.AlertType.INFORMATION. Alert - это класс в JavaFX, который используется для отображения сообщений пользователю.
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Выбор файла отменен");
+
+        // Метод setHeaderText() устанавливает заголовок для Alert.
+        alert.setHeaderText("Внимание");
+
+        // Метод showAndWait() отображает Alert и ожидает, пока пользователь не закроет его.
+        alert.showAndWait();
+
+        // Выводится сообщение "Выбор файла отменен" в консоль.
+        System.out.println("Выбор файла отменен");
+        }
+
+
+
+         */
+
+
+
+
+
     }
 
     /**
@@ -274,8 +392,53 @@ public class AppController implements Initializable {
 
             System.out.println("Выбранный файл: " + chooseFileCopy.getAbsolutePath());
         } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Выбор файла отменен");
+            alert.setHeaderText("Внимание");
+            alert.showAndWait();
+
             System.out.println("Выбор файла отменен");
         }
+
+
+
+
+        /*
+
+        // Метод setTitle() устанавливает заголовок диалогового окна выбора директории. В данном случае, заголовок установлен как "Выберите файл".
+        directoryChooser.setTitle("Выберите файл");
+
+        // Создается объект Stage с именем directoryStage. Stage - это класс в JavaFX, который представляет окно в пользовательском интерфейсе.
+        Stage directoryStage = new Stage();
+
+        // Метод showDialog() отображает диалоговое окно выбора директории. Если пользователь выбирает директорию, метод возвращает объект File, представляющий выбранную директорию. Если пользователь отменяет выбор директории, метод возвращает null.
+        File chooseFileCopy = directoryChooser.showDialog(directoryStage);
+
+        // Если выбранная директория не равна null, то выполняется блок кода. Это означает, что пользователь выбрал директорию.
+        if (chooseFileCopy != null) {
+
+        // Метод getAbsolutePath() возвращает абсолютный путь к выбранной директории. Этот путь затем устанавливается в текстовое поле pathFolder.
+        pathFolder.setText(chooseFileCopy.getAbsolutePath());
+
+        // Выводится сообщение "Выбранный файл: " и абсолютный путь к выбранной директории в консоль.
+        System.out.println("Выбранный файл: " + chooseFileCopy.getAbsolutePath());
+    } else {
+        // Если выбранная директория равна null, то выполняется блок кода. Это означает, что пользователь отменил выбор директории.
+
+        // Создается объект Alert с типом Alert.AlertType.INFORMATION. Alert - это класс в JavaFX, который используется для отображения сообщений пользователю.
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Выбор файла отменен");
+
+        // Метод setHeaderText() устанавливает заголовок для Alert.
+        alert.setHeaderText("Внимание");
+
+        // Метод showAndWait() отображает Alert и ожидает, пока пользователь не закроет его.
+        alert.showAndWait();
+
+        // Выводится сообщение "Выбор файла отменен" в консоль.
+        System.out.println("Выбор файла отменен");
+    }
+
+         */
+
     }
 
     /**
@@ -332,8 +495,7 @@ public class AppController implements Initializable {
     /**
      * Запуск автоматизированного скрипта с периодичностью по времени
      */
-    public void onActionStartAutoScript(ActionEvent actionEvent) {
-
+    public void handleAutoStartScript(ActionEvent actionEvent) {
         if (selectDateTime.getLocalDateTime() == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Вы не выбрали дату или время");
             alert.setHeaderText("Внимание");
@@ -365,6 +527,7 @@ public class AppController implements Initializable {
             } else {
 
                 String command = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz " + pathFolder.getText();
+                //String command = "sudo tar -zcvf /etc-`date '+%F'`.tar.gz " + pathFolder.getText();
 
                 /**             Команды для отчета
                 # Формирование отчета о создании копии
