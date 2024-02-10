@@ -63,9 +63,6 @@ public class AppController implements Initializable {
     @FXML // fx:id="chooseFileCopy"
     private Button chooseFileCopy; // Value injected by FXMLLoader
 
-    @FXML // fx:id="defaultPathFolder"
-    private CheckBox defaultPathFolder; // Value injected by FXMLLoader
-
     @FXML // fx:id="deleteFileCopy"
     private Button deleteFileCopy; // Value injected by FXMLLoader
 
