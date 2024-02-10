@@ -141,7 +141,7 @@ public class AppController implements Initializable {
                 //String command = "sudo tar -zcvf /etc-`date '+%F'`.tar.gz " + pathFolder.getText();
                 //String command = "sudo tar -zcvf /etc-$(date +%F).tar.gz " + pathFolder.getText();
 
-                String command = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz /path/to/backup_directory; echo \"Архив создан $(date)\" >> backup_report.txt; du -sh /path/to/backup_directory >> backup_report.txt";
+                String command = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz /path/to/backup_directory; echo \"Резервная копия создана $(date)\" >> backup_report.txt; du -sh /path/to/backup_directory >> backup_report.txt";
 
 
                 // + Отчет или же альтернатива готовый bash скрипт
@@ -219,11 +219,12 @@ public class AppController implements Initializable {
 
         String minute = String.valueOf(dateTime.getMinute());
         String hour = String.valueOf(dateTime.getHour());
-        String day = String.valueOf(dateTime.getDayOfMonth());
-        String month = String.valueOf(dateTime.getMonth());
-        String year = String.valueOf(dateTime.getYear());
+        String dayOfMonth = String.valueOf(dateTime.getDayOfMonth());
+        String month = String.valueOf(dateTime.getMonthValue());
+        String dayOfWeek = String.valueOf(dateTime.getDayOfWeek().getValue());
+        //String year = String.valueOf(dateTime.getYear());
 
-        return  year + "_" + month + "_" + day + "_" + hour + "_" + minute;
+        return  minute + " " + hour + " " + dayOfMonth + " " + month + " " + dayOfWeek;
     }
 
     @SuppressWarnings("javadoc")
@@ -520,16 +521,30 @@ public class AppController implements Initializable {
             ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/C", "echo", "команда echo, котрая выводит это сообщение на экран ");
              */
 
+
+
             if (pathFolder.getText().isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Вы не выбрали путь к директории");
                 alert.setHeaderText("Внимание");
                 alert.showAndWait();
             } else {
 
-                String command = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz " + pathFolder.getText();
-                //String command = "sudo tar -zcvf /etc-`date '+%F'`.tar.gz " + pathFolder.getText();
 
-                /**             Команды для отчета
+
+                String command2  = "echo \"Резервная копия создана $(date)\" >> backup_report.txt";
+                //String commadn3 = "du -sh /path/to/backup_directory >> backup_report.txt";
+
+
+//              String command = "sudo tar -cvzf /"+ pathFolder.getText() + "backup_$(date +%F).tar.gz /etc";
+
+
+                String tarCommand = "tar -zcvf " + pathFolder.getText() + "-`date '+%F'`.tar.gz /etc";
+
+                String crontabAndTarCommand = "sudo echo " + cronDateTime + " " + tarCommand + " " + "| crontab -\n";
+
+                String commadn3 = "du -sh /path/to/backup_directory >> backup " + cronDateTime + " report.txt";
+
+                /** Команды для отчета
                 # Формирование отчета о создании копии
                 echo "Backup created on $(date)" >> backup_report.txt
                 du -sh /path/to/backup >> backup_report.txt
@@ -541,6 +556,8 @@ public class AppController implements Initializable {
                  *      Добавление задачи по крону и там же должна быть задача по выводу отчет когда будет делаться резервное копирование
                  *
                  */
+
+
 
 
                 // + Отчет или же альтернатива готовый bash скрипт
@@ -593,7 +610,7 @@ public class AppController implements Initializable {
                 //String command = "bash backup.sh";
 
                 try {
-                    ProcessBuilder processBuilderBASH = new ProcessBuilder("bash", "-c", command);
+                    ProcessBuilder processBuilderBASH = new ProcessBuilder("bash", "-c", crontabAndTarCommand);
                     Process process = processBuilderBASH.start();
 
                     int exitCode = process.waitFor();
