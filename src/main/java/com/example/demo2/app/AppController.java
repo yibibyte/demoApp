@@ -138,8 +138,13 @@ public class AppController implements Initializable {
                 //String command = "sudo tar -zcvf /etc-`date '+%F'`.tar.gz " + pathFolder.getText();
                 //String command = "sudo tar -zcvf /etc-$(date +%F).tar.gz " + pathFolder.getText();
 
-                String command = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz /path/to/backup_directory; echo \"Резервная копия создана $(date)\" >> backup_report.txt; du -sh /path/to/backup_directory >> backup_report.txt";
+                //String command = "tar -zcvf " + pathFolder.getText() + "/backup-`date '+%F'`.tar.gz /etc; echo \"Резервная копия создана $(date)\" >> \"backup report $(date)\".txt && du -sh " + pathFolder.getText() + " >>\"backup report $(date)\".txt";
 
+                String commandTar = "tar -zcvf " + pathFolder.getText() + "/backup-`date '+%F'`.tar.gz /etc";
+                String commanEcho = "echo \"Резервная копия создана $(date)\" >> " + pathFolder.getText() + "/\"backup report $(date)\".txt";
+                String commanDu = "du -sh " + pathFolder.getText() + "/ >> \"backup report $(date)\".txt";
+
+                String command2 = "echo \"Резервная копия создана $(date)\" >> " + pathFolder.getText() + "/\"backup report $(date)\".txt && du -sh " + pathFolder.getText() + "/ >> \"backup report $(date)\".txt";
 
                 // + Отчет или же альтернатива готовый bash скрипт
                 // TODO Добавить в command еще команду для формирования отчета:  + echo "Backup created on $(date)" >> backup_report.txt
@@ -152,7 +157,7 @@ public class AppController implements Initializable {
 
 
                 try {
-                    ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
+                    ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", commandTar, command2);
                     // ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", "tar -czf backup_$(date +%Y%m%d_%H%M%S).tar.gz " + pathFolder.getText());
                     Process process = processBuilder.start();
 
@@ -237,12 +242,12 @@ public class AppController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Выберите файл");
 
-        // Показываем окно выбора файла
-        File selectedFile = fileChooser.showOpenDialog(stage);
-
         // Добавление фильтра в окно FileChoose
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("tar files (*.tar.gz)", "*.tar.gz");
         fileChooser.getExtensionFilters().add(extFilter);
+
+        // Показываем окно выбора файла
+        File selectedFile = fileChooser.showOpenDialog(stage);
 
         //File selectedFile = fileChooser.showOpenDialog(null);
 
@@ -641,7 +646,7 @@ public class AppController implements Initializable {
      * Переименование файла
      */
     public void handleRenameFile(ActionEvent actionEvent) {
-
+        nameBackupCopy.setVisible(false);
         File oldFile = new File(nameBackupCopy.getText());
         if (nameBackupCopy.getText() != null) {
             String newName = nameBackupCopy.getText();
