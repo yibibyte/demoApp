@@ -6,7 +6,6 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -31,6 +30,8 @@ import jfxtras.scene.control.LocalDateTimePicker;
 public class AppController implements Initializable {
 
     private Stage stage;
+
+    private boolean buttonClicked = false;
 
     /**
      * @param stage
@@ -507,31 +508,11 @@ public class AppController implements Initializable {
             String cronDateTime = convertToCronExpression(selectDateTime.getLocalDateTime());
             System.out.println(cronDateTime);
 
-            /**  Построение команды для установки crontab
-             Команды для управления crontab:
-             crontab -e: Редактирование crontab файла.
-             crontab -l: Просмотр текущих задач.
-             crontab -r: Удаление текущих задач.
-             * Метод start для обработки события кнопки.
-             * @param у конструктора есть параметры, которые запускает cmd.exe с ключом /C и выводит сообщение на экран
-             * @return конструктор возвращает ProcessBuilder для дальнейшего запуска метода start для исполнение команд
-
-            String[] arrayCommandCron = {"crontab", "-e", "-l", "|", "echo", "\"" + cronExpression + "\"", "|", "crontab", "-"};
-
-            String commandCron = "echo \"0 3 * * * /путь/к/вашей/программе\" | crontab -\n";
-
-            ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/C", "echo", "команда echo, котрая выводит это сообщение на экран ");
-             */
-
-
-
             if (pathFolder.getText().isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Вы не выбрали путь к директории");
                 alert.setHeaderText("Внимание");
                 alert.showAndWait();
             } else {
-
-
 
                 String command2  = "echo \"Резервная копия создана $(date)\" >> backup_report.txt";
                 //String commadn3 = "du -sh /path/to/backup_directory >> backup_report.txt";
@@ -646,37 +627,94 @@ public class AppController implements Initializable {
      * Переименование файла
      */
     public void handleRenameFile(ActionEvent actionEvent) {
-        nameBackupCopy.setVisible(false);
-        File oldFile = new File(nameBackupCopy.getText());
-        if (nameBackupCopy.getText() != null) {
-            String newName = nameBackupCopy.getText();
-            File newFile = new File(oldFile.getParent(), newName);
 
-            if (oldFile.renameTo(newFile)) {
-                System.out.println("Файл успешно переименован в: " + newFile.getAbsolutePath());
-            } else {
-                System.out.println("Не удалось переименовать файл.");
-            }
-        }
+//
+//        String filePath = nameBackupCopy.getText();
+//
+//
+////        String newName = nameBackupCopy.getText();
+////        File newFile = new File(oldFile.getParent(), newName);
+//
+//        if (!filePath.isEmpty()) {
+//            File fileToDelete = new File(filePath);
+//
+//            if (fileToDelete.exists()) {
+//                //if (fileToDelete.renameTo()) {
+//                    System.out.println("Файл удален: " + filePath);
+//                    nameBackupCopy.clear();
+//                } else {
+//                    System.out.println("Не удалось удалить файл: " + filePath);
+//                }
+//            } else {
+//                System.out.println("Файл не существует: " + filePath);
+//            }
+//        } else {
+//            System.out.println("Введите путь к файлу.");
+//        }
+//
 
-        // Создание текстового поля для ввода нового имени файла
 
-        TextField newFileNameTextField = new TextField();
-        // Создание кнопки для запуска процесса переименования файла
-        Button renameButton = new Button("Переименовать файл");
 
-        // Логика для переименования файла при нажатии кнопки
-        renameButton.setOnAction(event -> {
-            String newFileName = newFileNameTextField.getText(); // Получаем новое имя файла из текстового поля
 
-            File newFile = new File(oldFile.getParent(), newFileName); // Создаем новый объект File с новым именем в той же директории
 
-            if (oldFile.renameTo(newFile)) { // Пытаемся переименовать файл
-                System.out.println("Файл успешно переименован.");
-            } else {
-                System.out.println("Не удалось переименовать файл.");
-            }
-        });
+
+
+//
+//        boolean succes = false;
+//
+//        String oldFileName = nameBackupCopy.getText();
+//        File oldFile = new File(oldFileName);
+//        String filePath = oldFile.getParent();
+//
+//        String fileName = oldFile.getName();
+//        if (buttonClicked) {
+//        nameBackupCopy.setEditable(false);
+//
+//        }
+////        renameFile
+////
+////        if (nameBackupCopy.getText() != null) {
+////            String newName = nameBackupCopy.getText();
+////            File newFile = new File(oldFile.getParent(), newName);
+////
+////            if (oldFile.renameTo(newFile)) {
+////                System.out.println("Файл успешно переименован в: " + newFile.getAbsolutePath());
+////            } else {
+////                System.out.println("Не удалось переименовать файл.");
+////            }
+////        }
+////
+////        // Создание текстового поля для ввода нового имени файла
+////
+////        TextField oldFileNameTextField = new TextField();
+////        // Создание кнопки для запуска процесса переименования файла
+////        Button renameButton = new Button("Переименовать файл");
+//
+//        else {
+//            nameBackupCopy.setEditable(true);
+//            String newFileName = nameBackupCopy.getText();
+//            File newFile = new File(newFileName);
+//            oldFile.renameTo(newFile);
+//            buttonClicked = true;
+//            nameBackupCopy.setEditable(false);
+//        }
+
+//            if (succes) {
+//
+//                nameBackupCopy.setEditable(false);
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл успешно переименован.");
+//                alert.setHeaderText("Внимание");
+//                alert.showAndWait();
+//                System.out.println("Файл успешно переименован.");
+//
+//            } else {
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Не удалось переименовать файл.");
+//                alert.setHeaderText("Внимание");
+//                alert.showAndWait();
+//                System.out.println("Не удалось переименовать файл.");
+//                nameBackupCopy.setEditable(false);
+//            }
+
 
 /*
         if (newFileNameTextField != null) {
@@ -735,7 +773,7 @@ public class AppController implements Initializable {
 //            }
 //        } else {
 //            System.out.println("Введите путь к файлу.");
-//        }
+
     }
 
     /**
