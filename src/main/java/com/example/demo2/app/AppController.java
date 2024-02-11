@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.application.HostServices;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,7 +32,8 @@ public class AppController implements Initializable {
 
     private Stage stage;
 
-    private boolean buttonClicked = false;
+    // Одна из всех переменная объявленная как static , то есть это строка в глобальной области видимости, то есть она одна на всех и ее видно всем ниже в коде, так как она объявлена здесь
+    static String currentNameFile;
 
     /**
      * @param stage
@@ -88,6 +88,10 @@ public class AppController implements Initializable {
     private Label labelPath1;
 
     @FXML
+    private Label lablePathBackupFile;
+
+
+    @FXML
     private Button startAutoScript;
 
     @FXML
@@ -107,7 +111,9 @@ public class AppController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Метод initialize инициализирует при старте приложения по умолчанию какими-то значениями наши объект (компоненты) в нашем случи это время в LocalDateTimePicker, где LocalDateTime.now() получаем текущее актуально время и дату
         selectDateTime.setLocalDateTime(LocalDateTime.now());
+        //currentNameFile = nameBackupCopy.getText();
     }
 
     /**
@@ -309,7 +315,12 @@ public class AppController implements Initializable {
         if (selectedFile != null) {
 
             // Показываем путь к файлу в Текстовом поле TextField
-            nameBackupCopy.setText(selectedFile.getAbsolutePath());
+            nameBackupCopy.setText(selectedFile.getName());
+
+            currentNameFile = nameBackupCopy.getText();
+
+            // Указываем путь к файлу в Label
+            lablePathBackupFile.setText(selectedFile.getParent());
 
             File parentDirectory = selectedFile.getParentFile();
 
@@ -586,148 +597,105 @@ public class AppController implements Initializable {
      * Переименование файла
      */
     public void handleRenameFile(ActionEvent actionEvent) {
+        // Обработчик событий handleRenameFile(ActionEvent actionEvent) переименовывает старый файл на новый,
+        // где имя старого файла сохраняется в глобальной переменной actualNameTextFieldBackupFile, которая объявлена выше для видимости во всем коде
 
-//
-//        String filePath = nameBackupCopy.getText();
-//
-//
-////        String newName = nameBackupCopy.getText();
-////        File newFile = new File(oldFile.getParent(), newName);
-//
-//        if (!filePath.isEmpty()) {
-//            File fileToDelete = new File(filePath);
-//
-//            if (fileToDelete.exists()) {
-//                //if (fileToDelete.renameTo()) {
-//                    System.out.println("Файл удален: " + filePath);
-//                    nameBackupCopy.clear();
-//                } else {
-//                    System.out.println("Не удалось удалить файл: " + filePath);
-//                }
-//            } else {
-//                System.out.println("Файл не существует: " + filePath);
-//            }
-//        } else {
-//            System.out.println("Введите путь к файлу.");
-//        }
-//
+        // Берем путь к файлу из Label для того, чтобы установить ему потом к новому переименованному файл
+        String pathDirectoryFile = lablePathBackupFile.getText();
 
+        // Вытаскиваем имя нового файла из TextFiled, который изменил пользователь
+        String newFileName = nameBackupCopy.getText();
 
-//
-//        boolean succes = false;
-//
-//        String oldFileName = nameBackupCopy.getText();
-//        File oldFile = new File(oldFileName);
-//        String filePath = oldFile.getParent();
-//
-//        String fileName = oldFile.getName();
-//        if (buttonClicked) {
-//        nameBackupCopy.setEditable(false);
-//
-//        }
-////        renameFile
-////
-////        if (nameBackupCopy.getText() != null) {
-////            String newName = nameBackupCopy.getText();
-////            File newFile = new File(oldFile.getParent(), newName);
-////
-////            if (oldFile.renameTo(newFile)) {
-////                System.out.println("Файл успешно переименован в: " + newFile.getAbsolutePath());
-////            } else {
-////                System.out.println("Не удалось переименовать файл.");
-////            }
-////        }
-////
-////        // Создание текстового поля для ввода нового имени файла
-////
-////        TextField oldFileNameTextField = new TextField();
-////        // Создание кнопки для запуска процесса переименования файла
-////        Button renameButton = new Button("Переименовать файл");
-//
-//        else {
-//            nameBackupCopy.setEditable(true);
-//            String newFileName = nameBackupCopy.getText();
-//            File newFile = new File(newFileName);
-//            oldFile.renameTo(newFile);
-//            buttonClicked = true;
-//            nameBackupCopy.setEditable(false);
-//        }
+        // Если имя нового файла не пустой
+        if (!newFileName.isEmpty()) {
 
-//            if (succes) {
-//
-//                nameBackupCopy.setEditable(false);
-//                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл успешно переименован.");
-//                alert.setHeaderText("Внимание");
-//                alert.showAndWait();
-//                System.out.println("Файл успешно переименован.");
-//
-//            } else {
-//                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Не удалось переименовать файл.");
-//                alert.setHeaderText("Внимание");
-//                alert.showAndWait();
-//                System.out.println("Не удалось переименовать файл.");
-//                nameBackupCopy.setEditable(false);
-//            }
+            // Получаем текущий файл, где создаем объект типа File currentFile инициализируем его тем путем,
+            // который у нас есть, и старым именем, который у нас был, чтобы потом его поменять на новый
+            File currentFile = new File(pathDirectoryFile, currentNameFile);
+
+            // Проверяем, существует ли файл в папке файл, то есть убеждаемся соответствует ли созданный объект File currentFile в файловой системе
+            if (currentFile.exists()) {
+
+                // Создаем новый файл с измененным именем в той же директории
+                File newFile = new File(pathDirectoryFile, newFileName);
+
+                /*
+
+                  // Путь к текущему файлу
+                    String currentFilePath = pathDirectoryFile + currentNameFile";
+
+                    // Путь к новому файлу
+                    String newFilePath = pathDirectoryFile + newFileName;
+
+                    // Используем класс Files для переименования
+                    Path currentPath = Paths.get(currentFilePath);
+                    Path newPath = Paths.get(newFilePath);
+
+                    try {
+                        Files.move(currentPath, newPath, StandardCopyOption.REPLACE_EXISTING);
+                        currentNameFile = currentFile.getName();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл успешно переименован");
+                    alert.setHeaderText("Внимание");
+                    alert.showAndWait();
+                        } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл не существует, выберите резервную копию, или введите корректное имя файла с расширением");
+                    alert.setHeaderText("Внимание");
+                    alert.showAndWait();
+
+                    System.out.println("Файл не существует, выберите резервную копию, или введите корректное имя файла с расширением.");
+                            }
+
+                 */
 
 
-/*
-        if (newFileNameTextField != null) {
+                // Пытаемся переименовать файл если выражение true, тогда выводим Alert об успешном созданном файле
+                if (currentFile.renameTo(newFile)) {
+                    currentNameFile = currentFile.getName();
 
-            // Показываем путь к файлу в Текстовом поле TextField
-            nameBackupCopy.setText(newFile.getAbsolutePath());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл успешно переименован");
+                    alert.setHeaderText("Внимание");
+                    alert.showAndWait();
 
-            // Получаем директорию, к которой принадлежит выбранный файл
-            File parentDirectory = newFile.getParentFile();
+                    // Получаем список файлов в директории, где лежит наш файл, чтобы его отобразить на экран в поле ListView с обновленным списком файлов в этой директории
+                    File[] filesInDirectory = currentFile.listFiles();
 
-            // Получаем список файлов в этой директории
-            File[] filesInDirectory = parentDirectory.listFiles();
+                    if (filesInDirectory != null) {
+                        // Получаем имена файлов
+                        List<String> fileNames = new ArrayList<>();
+                        for (File file : filesInDirectory) {
+                            if (file.isFile() && file.getName().endsWith(".tar.gz")) {
+                                fileNames.add(file.getName());
+                            }
+                        }
 
-            if (filesInDirectory != null) {
-                // Получаем имена файлов
-                List<String> fileNames = new ArrayList<>();
-                for (File file : filesInDirectory) {
-                    if (file.isFile()) {
-                        fileNames.add(file.getName());
+                        // Обновляем ListView
+                        ObservableList<String> fileList = FXCollections.observableArrayList(fileNames);
+                        listView.setItems(fileList);
                     }
-                }
 
-                // Обновляем ListView
-                ObservableList<String> fileList = FXCollections.observableArrayList(fileNames);
-                listView.setItems(fileList);
-            }
-
-
-            System.out.println("Выбранный файл: " + newFile.getAbsolutePath());
-        } else {
-            System.out.println("Нет файла для переименования");
-        }*/
-
-
-//        String currentFilePath = nameBackupCopy.getText();
+                    System.out.println("Файл успешно переименован.");
+                } //else {  // иначе что не удалось переименовать файл
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Не удалось переименовать файл");
+//                    alert.setHeaderText("Внимание");
+//                    alert.showAndWait();
 //
-//        if (!currentFilePath.isEmpty()) {
-//            File currentFile = new File(currentFilePath);
-//
-//            if (currentFile.exists()) {
-//                FileChooser fileChooser = new FileChooser();
-//                fileChooser.setTitle("Переименовать файл");
-//                fileChooser.setInitialFileName(currentFile.getName());
-//
-//                File newFile = fileChooser.showSaveDialog(null);
-//
-//                if (newFile != null) {
-//                    if (currentFile.renameTo(newFile)) {
-//                        nameBackupCopy.setText(newFile.getAbsolutePath());
-//                    } else {
-//                        System.out.println("Не удалось переименовать файл.");
-//                    }
+//                    System.out.println("Не удалось переименовать файл.");
 //                }
-//            } else {
-//                System.out.println("Файл не существует: " + currentFilePath);
-//            }
-//        } else {
-//            System.out.println("Введите путь к файлу.");
+            } else {  // а здесь выдаем сообщение на, что не существует такого файла,
+                      // когда мы создавали объект File currentFile и проверили его существование методов exists()
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл не существует, выберите резервную копию, или введите корректное имя файла с расширением");
+                alert.setHeaderText("Внимание");
+                alert.showAndWait();
 
+                System.out.println("Файл не существует, выберите резервную копию, или введите корректное имя файла с расширением.");
+            }
+        } else { // а здесь мы проверяем имя нового файла, оно не должно быть пустым, то есть пользователь может вообще оставить поле пустым, тогда мы его предупредим
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Введите имя файла");
+            alert.setHeaderText("Внимание");
+            alert.showAndWait();
+
+            System.out.println("Введите новое имя файла.");
+        }
     }
 
     /**
