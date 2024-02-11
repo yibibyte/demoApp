@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.application.HostServices;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import jfxtras.scene.control.LocalDateTimePicker;
+
 
 /**
  * @author G.I.V.
@@ -51,6 +53,18 @@ public class AppController implements Initializable {
      */
     @FXML
     private Button renameFile;
+
+    @FXML
+    private MenuItem menuExit;
+
+    @FXML
+    private MenuItem menuDelete;
+
+    @FXML
+    private MenuItem menuOpenDirectory;
+
+    @FXML
+    private MenuItem menuJavaDoc;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -122,12 +136,76 @@ public class AppController implements Initializable {
     public void typeNameBackupCopy(ActionEvent actionEvent) {
     }
 
+
+    @FXML
+    void handleMenuDelete(ActionEvent event) {
+        this.handleDeleteFileCopy(event);
+    }
+
+    @FXML
+    void handleMenuExit(ActionEvent event) {
+
+        // 1 вариант Выход с подтверждением
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Выход из приложения");
+//        alert.setHeaderText("Вы действительно хотите выйти?");
+//        alert.setContentText("Все несохраненные данные будут потеряны.");
+//
+//        ButtonType buttonTypeOk = new ButtonType("Да");
+//        ButtonType buttonTypeCancel = new ButtonType("Нет");
+//
+//        alert.getButtonTypes().setAll(buttonTypeOk, buttonTypeCancel);
+//
+//        Optional<ButtonType> result = alert.showAndWait();
+//
+//        if (result.get() == buttonTypeOk) {
+//            System.exit(0);
+//        }
+
+        // 2 вариант Выход без подтверждениемБез подтверждения
+
+        System.exit(0);
+
+    }
+
+
+    @FXML
+    void handleMenuJavaDoc(ActionEvent event) {
+        try {
+            // Выполняем команду Windows. Либо вот такая строка то есть абсолютный путь String filePath = "E:\\Java\\telegram\\demo2\\index.html";
+            // ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", "explorer.exe", "index.html");
+
+            ProcessBuilder processBuilder = new ProcessBuilder("explorer.exe", "index.html");
+
+             /*
+             Формируем команду для открытия файла в Linux
+             xdg-open --version
+             sudo apt install xdg-open
+             Выполняем команду Linux
+             ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", "xdg-open", "index.html");
+             ProcessBuilder processBuilder = new ProcessBuilder("xdg-open", "index.html");
+             */
+
+            Process process = processBuilder.start();
+            process.waitFor();
+
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void handleMenuOpenDirectory(ActionEvent event) {
+        this.handleChooseDirectory(event);
+    }
+
     @SuppressWarnings("javadoc")
     public void handleSelectDateTime(MouseEvent mouseEvent) {
     }
 
     /**
      * Метод для обработки события кнопки.
+     *
      * @param actionEvent
      */
 
@@ -192,8 +270,9 @@ public class AppController implements Initializable {
 
     /**
      * Метод convertToCronExpression Метод преобразует LocalDateTime в cron-выражение
+     *
      * @param dateTime передаем в наш метод, и это параметр это объект нашего календаря типа LocalDateTimePicker,
-     * который отдает нам LocalDateTime dateTime, где мы его уже переводим в int для работы подстановки в cron
+     *                 который отдает нам LocalDateTime dateTime, где мы его уже переводим в int для работы подстановки в cron
      * @return метод возвращает Process для запуска исполнение команд
      */
     //
@@ -206,7 +285,7 @@ public class AppController implements Initializable {
         String dayOfWeek = String.valueOf(dateTime.getDayOfWeek().getValue());
         //String year = String.valueOf(dateTime.getYear());
 
-        return  minute + " " + hour + " " + dayOfMonth + " " + month + " " + dayOfWeek;
+        return minute + " " + hour + " " + dayOfMonth + " " + month + " " + dayOfWeek;
     }
 
     /**
@@ -441,7 +520,7 @@ public class AppController implements Initializable {
                 alert.showAndWait();
             } else {
 
-                String command2  = "echo \"Резервная копия создана $(date)\" >> backup_report.txt";
+                String command2 = "echo \"Резервная копия создана $(date)\" >> backup_report.txt";
 
                 // String commadn3 = "du -sh /path/to/backup_directory >> backup_report.txt";
                 // String command = "sudo tar -cvzf /"+ pathFolder.getText() + "backup_$(date +%F).tar.gz /etc";
@@ -532,11 +611,6 @@ public class AppController implements Initializable {
 //            System.out.println("Введите путь к файлу.");
 //        }
 //
-
-
-
-
-
 
 
 //
