@@ -96,12 +96,41 @@ public class AppController implements Initializable {
         selectDateTime.setLocalDateTime(LocalDateTime.now());
     }
 
+    /**
+     * @param actionEvent
+     */
+    public void handleDefaultPathFolder(ActionEvent actionEvent) {
+
+    }
+
+    /**
+     * @param actionEvent
+     */
+    public void handlePathFolder(ActionEvent actionEvent) {
+    }
+
+    /**
+     * @param event
+     */
+    @FXML
+    void onActionStartListView(ActionEvent event) {
+    }
+
+    /**
+     * @param actionEvent
+     */
+    public void typeNameBackupCopy(ActionEvent actionEvent) {
+    }
+
+    @SuppressWarnings("javadoc")
+    public void handleSelectDateTime(MouseEvent mouseEvent) {
+    }
 
     /**
      * Метод для обработки события кнопки.
-     *
      * @param actionEvent
      */
+
     public void handleStartScript(ActionEvent actionEvent) {
 
         if (selectDateTime.getLocalDateTime() == null) {
@@ -111,23 +140,6 @@ public class AppController implements Initializable {
         } else {
             String cronDateTime = convertToCronExpression(selectDateTime.getLocalDateTime());
             System.out.println(cronDateTime);
-
-            /*  Построение команды для установки crontab
-            Команды для управления crontab:
-            crontab -e: Редактирование crontab файла.
-            crontab -l: Просмотр текущих задач.
-            crontab -r: Удаление текущих задач.
-
-             * Метод start для обработки события кнопки.
-             * @param у конструктора есть параметры, которые запускает cmd.exe с ключом /C и выводит сообщение на экран
-             * @return конструктор возвращает ProcessBuilder для дальнейшего запуска метода start для исполнение команд
-
-             String[] arrayCommandCron = {"crontab", "-e", "-l", "|", "echo", "\"" + cronExpression + "\"", "|", "crontab", "-"};
-
-            String commandCron = "echo \"0 3 * * * /путь/к/вашей/программе\" | crontab -\n";
-
-            ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/C", "echo", "команда echo, котрая выводит это сообщение на экран ");
-            */
 
             if (pathFolder.getText().isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Вы не выбрали путь к директории");
@@ -139,7 +151,7 @@ public class AppController implements Initializable {
                 //String command = "sudo tar -zcvf /etc-`date '+%F'`.tar.gz " + pathFolder.getText();
                 //String command = "sudo tar -zcvf /etc-$(date +%F).tar.gz " + pathFolder.getText();
 
-                //String command = "tar -zcvf " + pathFolder.getText() + "/backup-`date '+%F'`.tar.gz /etc; echo \"Резервная копия создана $(date)\" >> \"backup report $(date)\".txt && du -sh " + pathFolder.getText() + " >>\"backup report $(date)\".txt";
+                //String commandAll = "tar -zcvf " + pathFolder.getText() + "/backup-`date '+%F'`.tar.gz /etc; echo \"Резервная копия создана $(date)\" >> \"backup report $(date)\".txt && du -sh " + pathFolder.getText() + " >>\"backup report $(date)\".txt";
 
                 String commandTar = "tar -zcvf " + pathFolder.getText() + "/backup-`date '+%F'`.tar.gz /etc";
                 String commanEcho = "echo \"Резервная копия создана $(date)\" >> " + pathFolder.getText() + "/\"backup report $(date)\".txt";
@@ -147,14 +159,11 @@ public class AppController implements Initializable {
 
                 String command2 = "echo \"Резервная копия создана $(date)\" >> " + pathFolder.getText() + "/\"backup report $(date)\".txt && du -sh " + pathFolder.getText() + "/ >> \"backup report $(date)\".txt";
 
-                // + Отчет или же альтернатива готовый bash скрипт
-                // TODO Добавить в command еще команду для формирования отчета:  + echo "Backup created on $(date)" >> backup_report.txt
-                // смотри файл backup.sh в проекте
+                // TODO Добавить в command  для формирования отчета или же альтернатива готовый bash скрипт:  + echo "Backup created on $(date)" >> backup_report.txt
 
 //                # Формирование отчета о создании копии
 //                echo "Backup created on $(date)" >> backup_report.txt
 //                du -sh /path/to/backup_directory >> backup_report.txt
-
 
 
                 try {
@@ -177,40 +186,10 @@ public class AppController implements Initializable {
                 } catch (IOException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
-
-/*
-                String command1 = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz /path/to/backup_directory";
-                String command2 = "echo \"Backup created on $(date)\" >> backup_report.txt";
-                String command3 = "du -sh /path/to/backup_directory >> backup_report.txt";
-
-                try {
-                    ProcessBuilder pb1 = new ProcessBuilder("bash", "-c", command1);
-                    Process process1 = pb1.start();
-
-                    ProcessBuilder pb2 = new ProcessBuilder("bash", "-c", command2);
-                    Process process2 = pb2.start();
-
-                    ProcessBuilder pb3 = new ProcessBuilder("bash", "-c", command3);
-                    Process process3 = pb3.start();
-
-                    int exitCode1 = process1.waitFor();
-                    int exitCode2 = process2.waitFor();
-                    int exitCode3 = process3.waitFor();
-
-                    if (exitCode1 != 0 || exitCode2 != 0 || exitCode3 != 0) {
-                        System.out.println("Ошибка при выполнении команды");
-                    }
-
-*/
-
             }
-
         }
-
     }
 
-    // День недели нам не нужен, так как нам нужны только год, месяц, число, часы и минуты, которые пользователь будет вводить
     /**
      * Метод convertToCronExpression Метод преобразует LocalDateTime в cron-выражение
      * @param dateTime передаем в наш метод, и это параметр это объект нашего календаря типа LocalDateTimePicker,
@@ -230,16 +209,12 @@ public class AppController implements Initializable {
         return  minute + " " + hour + " " + dayOfMonth + " " + month + " " + dayOfWeek;
     }
 
-    @SuppressWarnings("javadoc")
-    public void handleSelectDateTime(MouseEvent mouseEvent) {
-    }
-
     /**
      * @param actionEvent
      */
     public void handleChooseFileCopy(ActionEvent actionEvent) {
-        // Выбор файла
 
+        // Выбор файла
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Выберите файл");
 
@@ -257,16 +232,6 @@ public class AppController implements Initializable {
             // Показываем путь к файлу в Текстовом поле TextField
             nameBackupCopy.setText(selectedFile.getAbsolutePath());
 
-        /**
-         * Получаем директорию, к которой принадлежит выбранный файл
-         * Объект типо File может быть одновременно как файлом в файловой системе, так и директорией(папкой)
-         * Для того чтобы понять с чем мы работаем, есть методы на утверждение parentDirectory.isFile() и parentDirectory.isDirectory()
-         * Ранне все было файл один единственный объект parentDirectory в нашем случае является директорией
-         * В Java, метод getParentFile() является частью класса File
-         * и используется для получения объекта типа File, представляющего родительскую директорию данного файла
-         */
-
-        //
             File parentDirectory = selectedFile.getParentFile();
 
             // Получаем список файлов в этой директории
@@ -286,8 +251,8 @@ public class AppController implements Initializable {
                 listView.setItems(fileList);
             }
 
-
             System.out.println("Выбранный файл: " + selectedFile.getAbsolutePath());
+
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Выбор файла отменен");
             alert.setHeaderText("Внимание");
@@ -366,15 +331,7 @@ public class AppController implements Initializable {
         // Выводится сообщение "Выбор файла отменен" в консоль.
         System.out.println("Выбор файла отменен");
         }
-
-
-
          */
-
-
-
-
-
     }
 
     /**
@@ -402,8 +359,6 @@ public class AppController implements Initializable {
 
             System.out.println("Выбор файла отменен");
         }
-
-
 
 
         /*
@@ -440,9 +395,7 @@ public class AppController implements Initializable {
         // Выводится сообщение "Выбор файла отменен" в консоль.
         System.out.println("Выбор файла отменен");
     }
-
          */
-
     }
 
     /**
@@ -471,32 +424,6 @@ public class AppController implements Initializable {
     }
 
     /**
-     * @param actionEvent
-     */
-    public void handleDefaultPathFolder(ActionEvent actionEvent) {
-
-    }
-
-    /**
-     * @param actionEvent
-     */
-    public void handlePathFolder(ActionEvent actionEvent) {
-    }
-
-    /**
-     * @param event
-     */
-    @FXML
-    void onActionStartListView(ActionEvent event) {
-    }
-
-    /**
-     * @param actionEvent
-     */
-    public void typeNameBackupCopy(ActionEvent actionEvent) {
-    }
-
-    /**
      * Запуск автоматизированного скрипта с периодичностью по времени
      */
     public void handleAutoStartScript(ActionEvent actionEvent) {
@@ -515,59 +442,21 @@ public class AppController implements Initializable {
             } else {
 
                 String command2  = "echo \"Резервная копия создана $(date)\" >> backup_report.txt";
-                //String commadn3 = "du -sh /path/to/backup_directory >> backup_report.txt";
 
-
-//              String command = "sudo tar -cvzf /"+ pathFolder.getText() + "backup_$(date +%F).tar.gz /etc";
-
+                // String commadn3 = "du -sh /path/to/backup_directory >> backup_report.txt";
+                // String command = "sudo tar -cvzf /"+ pathFolder.getText() + "backup_$(date +%F).tar.gz /etc";
 
                 String tarCommand = "tar -zcvf " + pathFolder.getText() + "-`date '+%F'`.tar.gz /etc";
+
+                // + Отчет или же альтернатива готовый bash скрипт
+                // TODO Добавить в command еще команду для формирования отчета:  + echo "Backup created on $(date)" >> backup_report.txt
 
                 String crontabAndTarCommand = "sudo echo " + cronDateTime + " " + tarCommand + " " + "| crontab -\n";
 
                 String commadn3 = "du -sh /path/to/backup_directory >> backup " + cronDateTime + " report.txt";
 
-                /** Команды для отчета
-                # Формирование отчета о создании копии
-                echo "Backup created on $(date)" >> backup_report.txt
-                du -sh /path/to/backup >> backup_report.txt
-                */
 
-                /**     TODO  Сделать CRON
-                 *
-                 *      !!!!! CRON !!!!
-                 *      Добавление задачи по крону и там же должна быть задача по выводу отчет когда будет делаться резервное копирование
-                 *
-                 */
-
-
-
-
-                // + Отчет или же альтернатива готовый bash скрипт
-                // TODO Добавить в command еще команду для формирования отчета:  + echo "Backup created on $(date)" >> backup_report.txt
-                // смотри файл backup.sh в проекте
-                //   ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
-                // ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", "tar -czf backup_$(date +%Y%m%d_%H%M%S).tar.gz " + pathFolder.getText());
-
-/*
-
-                // Строка с командами для выполнения в bash
-                String bashCommands = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz /path/to/directory && " +
-                        "echo \"Backup created on $(date)\" >> backup_report.txt && " +
-                        "du -sh /path/to/backup >> backup_report.txt";
-
-                // Создание объекта ProcessBuilder с использованием списка команд
-                ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", bashCommands);
-
-*/
-
-
-                /**
-                 *  Нужно загнать в массив все строки, чтобы получился массив строк с помощью Arrays.asList() передать как параметр в new ProcessBuilder()
-                 *  для исполнения
-                 */
-
-                /*
+                /* Или можно запистаь так с помощью нескольких команд и через запятую передать из в ProcessBuilder()
 
                 // Команда для создания архива с резервной копией
                 String tarCommand = "tar -czf backup_$(date +%Y_%m_%d_%H_%M_%S).tar.gz /path/to/directory";
@@ -588,9 +477,6 @@ public class AppController implements Initializable {
                 int exitCode = process.waitFor();
 
                  */
-
-
-                //String command = "bash backup.sh";
 
                 try {
                     ProcessBuilder processBuilderBASH = new ProcessBuilder("bash", "-c", crontabAndTarCommand);
@@ -614,12 +500,6 @@ public class AppController implements Initializable {
                     throw new RuntimeException(e);
                 }
             }
-
-
-//            ProcessBuilder для Windows
-//            ProcessBuilder pbCMD = new ProcessBuilder("cmd.exe", "/C", "echo", cronDateTime);
-//            try {
-
         }
     }
 
@@ -787,22 +667,6 @@ public class AppController implements Initializable {
         } else {
             String cronDateTime = convertToCronExpression(selectDateTime.getLocalDateTime());
             System.out.println(cronDateTime);
-
-            /**  Построение команды для установки crontab
-             Команды для управления crontab:
-             crontab -e: Редактирование crontab файла.
-             crontab -l: Просмотр текущих задач.
-             crontab -r: Удаление текущих задач.
-             * Метод start для обработки события кнопки.
-             * @param у конструктора есть параметры, которые запускает cmd.exe с ключом /C и выводит сообщение на экран
-             * @return конструктор возвращает ProcessBuilder для дальнейшего запуска метода start для исполнение команд
-
-            String[] arrayCommandCron = {"crontab", "-e", "-l", "|", "echo", "\"" + cronExpression + "\"", "|", "crontab", "-"};
-
-            String commandCron = "echo \"0 3 * * * /путь/к/вашей/программе\" | crontab -\n";
-
-            ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/C", "echo", "команда echo, котрая выводит это сообщение на экран ");
-             */
 
             if (pathFolder.getText().isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Вы не выбрали путь к директории");
