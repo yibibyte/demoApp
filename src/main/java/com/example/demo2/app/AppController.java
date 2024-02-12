@@ -120,7 +120,7 @@ public class AppController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Метод initialize инициализирует при старте приложения по умолчанию какими-то значениями наши объект (компоненты) в нашем случи это время в LocalDateTimePicker, где LocalDateTime.now() получаем текущее актуально время и дату
         selectDateTime.setLocalDateTime(LocalDateTime.now());
-        //currentNameFile = nameBackupCopy.getText();
+
     }
 
     /**
