@@ -632,26 +632,6 @@ public class AppController implements Initializable {
                     //Files.move(currentPath, newPath, StandardCopyOption.REPLACE_EXISTING);
                     currentNameFile = newFileName;
 
-/*
-                    File parentDirectory = newFile.getParentFile();
-
-                    // Получаем список файлов в директории, где лежит наш файл, чтобы его отобразить на экран в поле ListView с обновленным списком файлов в этой директории
-                    File[] filesInDirectory = parentDirectory.listFiles();
-
-                    if (filesInDirectory != null) {
-                        // Получаем имена файлов
-                        List<String> fileNames = new ArrayList<>();
-                        for (File file : filesInDirectory) {
-                            if (file.isFile() && file.getName().endsWith(".tar.gz")) {
-                                fileNames.add(file.getName());
-                            }
-                        }
-
-                        // Обновляем ListView
-                        ObservableList<String> fileList = FXCollections.observableArrayList(fileNames);
-                        listView.setItems(fileList);
-                    }*/
-
                     // Временно создаем временный объект new File(pathDirectoryFile) подставив путь как параметр, чтобы использовать только локально,
                     // для того чтобы указать путь к директории где хранятся с нашим расширением *.tar.gz файлы
 
