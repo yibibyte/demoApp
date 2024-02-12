@@ -43,7 +43,7 @@ public class AppController implements Initializable {
     static String currentNameFile;
 
     /**
-     * @param stage
+     * @param stage Фундамент для сцены
      */
     public void setStage(Stage stage) {
         this.stage = stage;
