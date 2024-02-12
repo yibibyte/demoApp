@@ -307,21 +307,27 @@ public class AppController implements Initializable {
             // Указываем путь к файлу в Label
             lablePathBackupFile.setText(selectedFile.getParent());
 
+            // Здесь мы получаем путь к родительской директории из выбранного нашего файла, для того,
+            // чтобы потом посмотреть какие еще файлы такого типа лежат по этому пути
             File parentDirectory = selectedFile.getParentFile();
 
-            // Получаем список файлов в этой директории
+            // Получаем массив всех файлов из этой директории
             File[] filesInDirectory = parentDirectory.listFiles();
 
+            // Проверяем что наш список не оказался пустым
             if (filesInDirectory != null) {
-                // Получаем имена файлов
+
+                // Получаем список имен файлов из этого массива
                 List<String> fileNames = new ArrayList<>();
                 for (File file : filesInDirectory) {
+                    // Делаем проверку что это Файл, а не какая-то папка и чтобы этот файл был с расширением tar.gz
                     if (file.isFile() && file.getName().endsWith(".tar.gz")) {
+                        // добавляем этот массив нужных нам файлов в список
                         fileNames.add(file.getName());
                     }
                 }
 
-                // Обновляем ListView
+                // Обновляем ListView с помощью Наблюдаемого Списка, который следит за актуализацией данных
                 ObservableList<String> fileList = FXCollections.observableArrayList(fileNames);
                 listView.setItems(fileList);
             }
@@ -477,7 +483,7 @@ public class AppController implements Initializable {
      * Удаление резервной копии
      */
     public void handleDeleteFileCopy(ActionEvent actionEvent) {
-        String filePath = nameBackupCopy.getText();
+        String filePath = lablePathBackupFile.getText() + "/" + nameBackupCopy.getText();
 
         if (!filePath.isEmpty()) {
             File fileToDelete = new File(filePath);
