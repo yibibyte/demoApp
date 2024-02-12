@@ -2,8 +2,9 @@
  * Описание модуля com.example.demo2.
  * Дополнительная информация о лицензировании.
  */
-module com.example.demo2 {
+module com.example.demo.app {
     requires jfxtras.controls; // Зависимость от модуля jfxtras.controls
+    requires org.apache.commons.io;
 
     opens com.example.demo2 to javafx.fxml; // Открытие пакета com.example.demo2 для использования в JavaFX FXML
     exports com.example.demo2; // Экспорт пакета com.example.demo2

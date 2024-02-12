@@ -3,8 +3,13 @@ package com.example.demo2.app;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -19,6 +24,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import jfxtras.scene.control.LocalDateTimePicker;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 
 
 /**
@@ -619,45 +626,17 @@ public class AppController implements Initializable {
                 // Создаем новый файл с измененным именем в той же директории
                 File newFile = new File(pathDirectoryFile, newFileName);
 
-                /*
+                try {
+                    FileUtils.moveFile(currentFile, newFile);
 
-                  // Путь к текущему файлу
-                    String currentFilePath = pathDirectoryFile + currentNameFile";
+                    //Files.move(currentPath, newPath, StandardCopyOption.REPLACE_EXISTING);
+                    currentNameFile = newFileName;
 
-                    // Путь к новому файлу
-                    String newFilePath = pathDirectoryFile + newFileName;
-
-                    // Используем класс Files для переименования
-                    Path currentPath = Paths.get(currentFilePath);
-                    Path newPath = Paths.get(newFilePath);
-
-                    try {
-                        Files.move(currentPath, newPath, StandardCopyOption.REPLACE_EXISTING);
-                        currentNameFile = currentFile.getName();
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл успешно переименован");
-                    alert.setHeaderText("Внимание");
-                    alert.showAndWait();
-                        } catch (Exception e) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл не существует, выберите резервную копию, или введите корректное имя файла с расширением");
-                    alert.setHeaderText("Внимание");
-                    alert.showAndWait();
-
-                    System.out.println("Файл не существует, выберите резервную копию, или введите корректное имя файла с расширением.");
-                            }
-
-                 */
-
-
-                // Пытаемся переименовать файл если выражение true, тогда выводим Alert об успешном созданном файле
-                if (currentFile.renameTo(newFile)) {
-                    currentNameFile = currentFile.getName();
-
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл успешно переименован");
-                    alert.setHeaderText("Внимание");
-                    alert.showAndWait();
+/*
+                    File parentDirectory = newFile.getParentFile();
 
                     // Получаем список файлов в директории, где лежит наш файл, чтобы его отобразить на экран в поле ListView с обновленным списком файлов в этой директории
-                    File[] filesInDirectory = currentFile.listFiles();
+                    File[] filesInDirectory = parentDirectory.listFiles();
 
                     if (filesInDirectory != null) {
                         // Получаем имена файлов
@@ -671,23 +650,46 @@ public class AppController implements Initializable {
                         // Обновляем ListView
                         ObservableList<String> fileList = FXCollections.observableArrayList(fileNames);
                         listView.setItems(fileList);
+                    }*/
+
+                    // Временно создаем временный объект new File(pathDirectoryFile) подставив путь как параметр, чтобы использовать только локально,
+                    // для того чтобы указать путь к директории где хранятся с нашим расширением *.tar.gz файлы
+
+                    Collection<File> files = FileUtils.listFiles(new File(pathDirectoryFile), new WildcardFileFilter("*.tar.gz"), null);
+
+                    // Теперь у нас есть список имен файлов с расширением .tar.gz в указанной директории
+                    List<String> fileNames = new ArrayList<>();
+                    for (File f : files) {
+                        fileNames.add(f.getName());
                     }
 
+                    // Обновляем ListView
+                    ObservableList<String> fileList = FXCollections.observableArrayList(fileNames);
+                    listView.setItems(fileList);
+
+
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл успешно переименован");
+                    alert.setHeaderText("Внимание");
+                    alert.showAndWait();
                     System.out.println("Файл успешно переименован.");
-                } //else {  // иначе что не удалось переименовать файл
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Не удалось переименовать файл");
-//                    alert.setHeaderText("Внимание");
-//                    alert.showAndWait();
-//
-//                    System.out.println("Не удалось переименовать файл.");
-//                }
+
+
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл не существует или это тот же файл");
+                    alert.setHeaderText("Внимание");
+                    alert.showAndWait();
+
+                    System.out.println("Файл не существует или это тот же файл.");
+                }
+
             } else {  // а здесь выдаем сообщение на, что не существует такого файла,
-                      // когда мы создавали объект File currentFile и проверили его существование методов exists()
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл не существует, выберите резервную копию, или введите корректное имя файла с расширением");
+                // когда мы создавали объект File currentFile и проверили его существование методов exists()
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл не существует или это тот же файл, введите корректное имя файла с расширением, или выберите резервную копию");
                 alert.setHeaderText("Внимание");
                 alert.showAndWait();
 
-                System.out.println("Файл не существует, выберите резервную копию, или введите корректное имя файла с расширением.");
+                System.out.println("Файл не существует или это тот же файл, выберите резервную копию, или введите корректное имя файла с расширением.");
             }
         } else { // а здесь мы проверяем имя нового файла, оно не должно быть пустым, то есть пользователь может вообще оставить поле пустым, тогда мы его предупредим
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Введите имя файла");
