@@ -37,10 +37,55 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
  */
 public class AppController implements Initializable {
 
-    private Stage stage;
-
     // Одна из всех переменная объявленная как static , то есть это строка в глобальной области видимости, то есть она одна на всех и ее видно всем ниже в коде, так как она объявлена здесь
     static String currentNameFile;
+    /**
+     * Start Script Copy
+     */
+    @FXML
+    public Button startScriptCopy;
+    private Stage stage;
+    /**
+     * Rename of File
+     */
+    @FXML
+    private Button renameFile;
+    @FXML
+    private MenuItem menuExit;
+    @FXML
+    private MenuItem menuDelete;
+    @FXML
+    private MenuItem menuOpenDirectory;
+    @FXML
+    private MenuItem menuJavaDoc;
+    @FXML // ResourceBundle that was given to the FXMLLoader
+    private ResourceBundle resources;
+    @FXML // URL location of the FXML file that was given to the FXMLLoader
+    private URL location;
+    @FXML // fx:id="chooseDirectory"
+    private Button chooseDirectory; // Value injected by FXMLLoader
+    @FXML // fx:id="chooseFileCopy"
+    private Button chooseFileCopy; // Value injected by FXMLLoader
+    @FXML // fx:id="deleteFileCopy"
+    private Button deleteFileCopy; // Value injected by FXMLLoader
+    @FXML
+    private Label labelPath;
+    @FXML
+    private Label labelPath1;
+    @FXML
+    private Label lablePathBackupFile;
+    @FXML
+    private Button startAutoScript;
+    @FXML
+    private ListView<String> listView;
+    @FXML // fx:id="nameBackupCopy"
+    private TextField nameBackupCopy; // Value injected by FXMLLoader
+    @FXML // fx:id="pathFolder"
+    private TextField pathFolder; // Value injected by FXMLLoader
+    @FXML // fx:id="selectDateTime"
+    private LocalDateTimePicker selectDateTime; // Value injected by FXMLLoader
+    @FXML // fx:id="startScript"
+    private Button startScript; // Value injected by FXMLLoader
 
     /**
      * @param stage Фундамент для сцены
@@ -48,73 +93,6 @@ public class AppController implements Initializable {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
-    /**
-     * Start Script Copy
-     */
-    @FXML
-    public Button startScriptCopy;
-
-    /**
-     * Rename of File
-     */
-    @FXML
-    private Button renameFile;
-
-    @FXML
-    private MenuItem menuExit;
-
-    @FXML
-    private MenuItem menuDelete;
-
-    @FXML
-    private MenuItem menuOpenDirectory;
-
-    @FXML
-    private MenuItem menuJavaDoc;
-
-    @FXML // ResourceBundle that was given to the FXMLLoader
-    private ResourceBundle resources;
-
-    @FXML // URL location of the FXML file that was given to the FXMLLoader
-    private URL location;
-
-    @FXML // fx:id="chooseDirectory"
-    private Button chooseDirectory; // Value injected by FXMLLoader
-
-    @FXML // fx:id="chooseFileCopy"
-    private Button chooseFileCopy; // Value injected by FXMLLoader
-
-    @FXML // fx:id="deleteFileCopy"
-    private Button deleteFileCopy; // Value injected by FXMLLoader
-
-    @FXML
-    private Label labelPath;
-
-    @FXML
-    private Label labelPath1;
-
-    @FXML
-    private Label lablePathBackupFile;
-
-
-    @FXML
-    private Button startAutoScript;
-
-    @FXML
-    private ListView<String> listView;
-
-    @FXML // fx:id="nameBackupCopy"
-    private TextField nameBackupCopy; // Value injected by FXMLLoader
-
-    @FXML // fx:id="pathFolder"
-    private TextField pathFolder; // Value injected by FXMLLoader
-
-    @FXML // fx:id="selectDateTime"
-    private LocalDateTimePicker selectDateTime; // Value injected by FXMLLoader
-
-    @FXML // fx:id="startScript"
-    private Button startScript; // Value injected by FXMLLoader
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -648,7 +626,6 @@ public class AppController implements Initializable {
                     listView.setItems(fileList);
 
 
-
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "Файл успешно переименован");
                     alert.setHeaderText("Внимание");
                     alert.showAndWait();
@@ -684,44 +661,52 @@ public class AppController implements Initializable {
      * Запуск резервного копирования в текущий момент
      */
     public void handleStartScriptCopy(ActionEvent actionEvent) {
-        if (selectDateTime.getLocalDateTime() == null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Вы не выбрали дату или время");
+
+        String pathToFile = lablePathBackupFile.getText() + "/" + nameBackupCopy.getText();
+        if (pathToFile.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Выберите корректный файл для запуска");
             alert.setHeaderText("Внимание");
             alert.showAndWait();
         } else {
-            String cronDateTime = convertToCronExpression(selectDateTime.getLocalDateTime());
-            System.out.println(cronDateTime);
+            // Скрипт который можно взять для запуска ранее созданными резервное копирование
+            String commandBashScript = "bash backup.sh";
+               /*
+                cd /
+                sudo tar -zcvpf /backup-`date '+%F'`.tar.gz --directory / --exclude=proc --exclude=var --exclude=mnt --exclude=usr --exclude=backup .
 
-            if (pathFolder.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Вы не выбрали путь к директории");
-                alert.setHeaderText("Внимание");
-                alert.showAndWait();
-            } else {
+                sudo tar -zcvf /etc-`date '+%F'`.tar.gz /etc
 
-                // TODO Скрипт который можно взять для запуска ранее созданными резервное копирование
-                String command = "bash backup.sh";
+                Восстановление
+                cd
+                tar -zxpf /etc-2024-02-08/tar.gz
 
-                try {
-                    ProcessBuilder processBuilderBASH = new ProcessBuilder("bash", "-c", command);
-                    Process process = processBuilderBASH.start();
+                Опция "р" сохраняет права доступа.
+                Опция "f" указывает на то, что следующим аргументом является имя архива или устройства
+                */
+            String commandRecoverBackup = "tar -zxpf " + pathToFile;
 
-                    int exitCode = process.waitFor();
+            String commanEcho = "echo \"Резервная копия создана $(date)\" >> " + nameBackupCopy.getText() + "/\"backup report $(date)\".txt";
+            String commanDu = "du -sh " + nameBackupCopy.getText() + "/ >> \"backup report $(date)\".txt";
+            try {
+                ProcessBuilder processBuilderBASH = new ProcessBuilder("bash", "-c", commandRecoverBackup);
+                Process process = processBuilderBASH.start();
 
-                    if (exitCode == 0) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Команда резервного копирования выполнена успешно");
-                        alert.setHeaderText("Внимание");
-                        alert.showAndWait();
-                        System.out.println("Команда резервного копирования выполнена успешно.");
+                int exitCode = process.waitFor();
 
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Ошибка выполнения команды резервного копирования");
-                        alert.setHeaderText("Ошибка");
-                        alert.showAndWait();
-                        System.out.println("Ошибка выполнения команды резервного копирования.");
-                    }
-                } catch (IOException | InterruptedException e) {
-                    throw new RuntimeException(e);
+                if (exitCode == 0) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Команда резервного копирования выполнена успешно");
+                    alert.setHeaderText("Внимание");
+                    alert.showAndWait();
+                    System.out.println("Команда резервного копирования выполнена успешно.");
+
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Ошибка выполнения команды резервного копирования");
+                    alert.setHeaderText("Ошибка");
+                    alert.showAndWait();
+                    System.out.println("Ошибка выполнения команды резервного копирования.");
                 }
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }

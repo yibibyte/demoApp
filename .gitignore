@@ -45,3 +45,8 @@ build/
 /dbnavigator.xml
 /.idea/artifacts/demo2.xml
 /.idea/artifacts/demo2_jar2.xml
+/out/artifacts/demo2_jar/demo2_jar.jar
+/.idea/artifacts/demo2_jar.xml
+/.idea/git_toolbox_prj.xml
+/.idea/sonarlint/issuestore/index.pb
+/.idea/sonarlint/securityhotspotstore/index.pb
