@@ -228,12 +228,20 @@ public class AppController implements Initializable {
 
 
                 String commandTar = "sudo tar -cvzf \"" + pathFolder.getText() + "/backup-$(date +%F).tar.gz\" /etc";
+                String commandDu = "du -sh \"" + pathFolder.getText() + "\"/* >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt";
+                String commandEcho = "echo \"Резервная копия создана $(date +%F)\" >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt";
 
                 String commandTar2 = "sudo btrfs send -c -v /etc /home/rosa/Загрузки/Backup/backup-$(date +%F).tar.gz";
                 //sudo btrfs subvolume snapshot /home/rosa/Загрузки/Backup/ /etc
-                String commandEchoAndDu = "echo \"Резервная копия создана $(date +%F)\" >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt" + " && " + "du -s \"" + pathFolder.getText() + "/\" >> \"log-$(date +%F)\".txt";
-                String commanEcho = "echo \"Резервная копия создана $(date +%F)\" >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt";
-                String commanDu = "du -s \"" + pathFolder.getText() + "/\" >> \"log-$(date +%F)\".txt";
+                //String commandEchoAndDu = "echo \"Резервная копия создана $(date +%F)\" >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt" + " && " + "du -s \"" + pathFolder.getText() + "\"/* >> \"log-$(date +%F)\".txt";
+
+                // du -s /home/rosa/Загрузки/Backup/* >> "log-$(date +%F)".txt
+
+
+                String commandEchoAndDu = commandEcho + " && " + commandDu;
+                String commandAll = commandTar + " && " + commandEcho + " && " + commandDu;
+
+
                 //String command2 = "echo \"Резервная копия создана $(date +%F)\" >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt && du -sh \"" + pathFolder.getText() + "/\" >> \"log-$(date +%F)\".txt";
 
                 // TODO Добавить в command  для формирования отчета или же альтернатива готовый bash скрипт:  + echo "Backup created on $(date +%F)" >> backup_report.txt
@@ -244,7 +252,7 @@ public class AppController implements Initializable {
 
 
                 try {
-                    ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c",  commanEcho);
+                    ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", commandAll);
                     processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
                     processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
                     Process process = processBuilder.start();
