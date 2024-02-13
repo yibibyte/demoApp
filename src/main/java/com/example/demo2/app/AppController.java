@@ -2,6 +2,7 @@ package com.example.demo2.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -219,33 +220,47 @@ public class AppController implements Initializable {
                 //String command = "tar -czf backup_$(date +%Y%m%d_%H%M%S).tar.gz " + pathFolder.getText();
                 //String command = "sudo tar -zcvf /etc-`date '+%F'`.tar.gz " + pathFolder.getText();
                 //String command = "sudo tar -zcvf /etc-$(date +%F).tar.gz " + pathFolder.getText();
+                //String commandAll = "tar -zcvf " + pathFolder.getText() + "/backup-`date '+%F'`.tar.gz /etc; echo \"Резервная копия создана $(date +%F)\" >> \"backup report $(date +%F)\".txt && du -sh " + pathFolder.getText() + " >>\"backup report $(date +%F)\".txt";
+                //String commandTar = "tar -zcvf \"" + pathFolder.getText() + "/backup-`date '+%F'`.tar.gz\" /etc";
 
-                //String commandAll = "tar -zcvf " + pathFolder.getText() + "/backup-`date '+%F'`.tar.gz /etc; echo \"Резервная копия создана $(date)\" >> \"backup report $(date)\".txt && du -sh " + pathFolder.getText() + " >>\"backup report $(date)\".txt";
 
-                String commandTar = "tar -zcvf " + pathFolder.getText() + "/backup-`date '+%F'`.tar.gz /etc";
-                String commanEcho = "echo \"Резервная копия создана $(date)\" >> " + pathFolder.getText() + "/\"backup report $(date)\".txt";
-                String commanDu = "du -sh " + pathFolder.getText() + "/ >> \"backup report $(date)\".txt";
 
-                String command2 = "echo \"Резервная копия создана $(date)\" >> " + pathFolder.getText() + "/\"backup report $(date)\".txt && du -sh " + pathFolder.getText() + "/ >> \"backup report $(date)\".txt";
 
-                // TODO Добавить в command  для формирования отчета или же альтернатива готовый bash скрипт:  + echo "Backup created on $(date)" >> backup_report.txt
+
+                String commandTar = "sudo tar -cvzf \"" + pathFolder.getText() + "/backup-$(date +%F).tar.gz\" /etc";
+
+                String commandTar2 = "sudo btrfs send -c -v /etc /home/rosa/Загрузки/Backup/backup-$(date +%F).tar.gz";
+                //sudo btrfs subvolume snapshot /home/rosa/Загрузки/Backup/ /etc
+                String commandEchoAndDu = "echo \"Резервная копия создана $(date +%F)\" >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt" + " && " + "du -s \"" + pathFolder.getText() + "/\" >> \"log-$(date +%F)\".txt";
+                String commanEcho = "echo \"Резервная копия создана $(date +%F)\" >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt";
+                String commanDu = "du -s \"" + pathFolder.getText() + "/\" >> \"log-$(date +%F)\".txt";
+                //String command2 = "echo \"Резервная копия создана $(date +%F)\" >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt && du -sh \"" + pathFolder.getText() + "/\" >> \"log-$(date +%F)\".txt";
+
+                // TODO Добавить в command  для формирования отчета или же альтернатива готовый bash скрипт:  + echo "Backup created on $(date +%F)" >> backup_report.txt
 
 //                # Формирование отчета о создании копии
-//                echo "Backup created on $(date)" >> backup_report.txt
+//                echo "Backup created on $(date +%F)" >> backup_report.txt
 //                du -sh /path/to/backup_directory >> backup_report.txt
 
 
                 try {
-                    ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", commandTar, command2);
-                    // ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", "tar -czf backup_$(date +%Y%m%d_%H%M%S).tar.gz " + pathFolder.getText());
+                    ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c",  commanEcho);
+                    processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+                    processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
                     Process process = processBuilder.start();
-
+//                    process.getInputStream().close();
+//                    process.getErrorStream().close();
                     int exitCode = process.waitFor();
+
                     if (exitCode == 0) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Команда резервного копирования выполнена успешно");
                         alert.setHeaderText("Внимание");
                         alert.showAndWait();
                         System.out.println("Команда резервного копирования выполнена успешно.");
+
+                        // Команда выполнена успешно
+                        System.out.println("Вывод команды:");
+
                     } else {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Ошибка выполнения команды резервного копирования");
                         alert.setHeaderText("Ошибка");
