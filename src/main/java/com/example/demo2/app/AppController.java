@@ -692,11 +692,10 @@ public class AppController implements Initializable {
             String commandRecoverBackup = "tar -zxpf " + pathToFile;
 
             String commanEcho = "echo \"Резервная копия создана $(date)\" >> " + nameBackupCopy.getText() + "/\"backup report $(date)\".txt";
-            String commanDu = "du -sh " + nameBackupCopy.getText() + "/ >> \"backup report $(date)\".txt";
+            String commanDuSize = "du -sh " + nameBackupCopy.getText() + "/ >> \"backup report $(date)\".txt";
             try {
                 ProcessBuilder processBuilderBASH = new ProcessBuilder("bash", "-c", commandRecoverBackup);
                 Process process = processBuilderBASH.start();
-
                 int exitCode = process.waitFor();
 
                 if (exitCode == 0) {
@@ -704,6 +703,14 @@ public class AppController implements Initializable {
                     alert.setHeaderText("Внимание");
                     alert.showAndWait();
                     System.out.println("Команда резервного копирования выполнена успешно.");
+
+                    ProcessBuilder processBuilderEcho = new ProcessBuilder("bash", "-c", commanEcho);
+                    Process processEcho = processBuilderEcho.start();
+                    processEcho.waitFor();
+
+                    ProcessBuilder processBuilderDuSize = new ProcessBuilder("bash", "-c", commanDuSize);
+                    Process processDuSize = processBuilderDuSize.start();
+                    processDuSize.waitFor();
 
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "Ошибка выполнения команды резервного копирования");
