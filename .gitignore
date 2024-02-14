@@ -50,3 +50,17 @@ build/
 /.idea/git_toolbox_prj.xml
 /.idea/sonarlint/issuestore/index.pb
 /.idea/sonarlint/securityhotspotstore/index.pb
+/src/main/java/com/example/demo2/app/AppController_0_setStage_calls.puml
+/src/main/java/com/example/demo2/app/AppController_1_initialize_calls.puml
+/src/main/java/com/example/demo2/app/AppController_2_handleDefaultPathFolder_calls.puml
+/src/main/java/com/example/demo2/app/AppController_3_handlePathFolder_calls.puml
+/src/main/java/com/example/demo2/app/AppController_4_typeNameBackupCopy_calls.puml
+/src/main/java/com/example/demo2/app/AppController_5_handleSelectDateTime_calls.puml
+/src/main/java/com/example/demo2/app/AppController_6_handleStartScript_calls.puml
+/src/main/java/com/example/demo2/app/AppController_7_convertToCronExpression_calls.puml
+/src/main/java/com/example/demo2/app/AppController_8_handleChooseFileCopy_calls.puml
+/src/main/java/com/example/demo2/app/AppController_9_handleChooseDirectory_calls.puml
+/src/main/java/com/example/demo2/app/AppController_10_handleDeleteFileCopy_calls.puml
+/src/main/java/com/example/demo2/app/AppController_11_handleAutoStartScript_calls.puml
+/src/main/java/com/example/demo2/app/AppController_12_handleRenameFile_calls.puml
+/src/main/java/com/example/demo2/app/AppController_13_handleStartScriptCopy_calls.puml

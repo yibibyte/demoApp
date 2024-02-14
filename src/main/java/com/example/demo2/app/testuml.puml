@@ -1,0 +1,128 @@
+@startuml
+class com.example.demo2.app.AppController {
+~ {static} String currentNameFile
++ Button startScriptCopy
+- Stage stage
+- Button renameFile
+- MenuItem menuExit
+- MenuItem menuDelete
+- MenuItem menuOpenDirectory
+- MenuItem menuJavaDoc
+- ResourceBundle resources
+- URL location
+- Button chooseDirectory
+- Button chooseFileCopy
+- Button deleteFileCopy
+- Label labelPath
+- Label labelPath1
+- Label lablePathBackupFile
+- Button startAutoScript
+- ListView<String> listView
+- TextField nameBackupCopy
+- TextField pathFolder
+- LocalDateTimePicker selectDateTime
+- Button startScript
++ void setStage(Stage)
++ void initialize(URL,ResourceBundle)
++ void handleDefaultPathFolder(ActionEvent)
++ void handlePathFolder(ActionEvent)
+~ void onActionStartListView(ActionEvent)
++ void typeNameBackupCopy(ActionEvent)
+~ void handleMenuDelete(ActionEvent)
+~ void handleMenuExit(ActionEvent)
+~ void handleMenuJavaDoc(ActionEvent)
+~ void handleMenuOpenDirectory(ActionEvent)
++ void handleSelectDateTime(MouseEvent)
++ void handleStartScript(ActionEvent)
++ String convertToCronExpression(LocalDateTime)
++ void handleChooseFileCopy(ActionEvent)
++ void handleChooseDirectory(ActionEvent)
++ void handleDeleteFileCopy(ActionEvent)
++ void handleAutoStartScript(ActionEvent)
++ void handleRenameFile(ActionEvent)
++ void handleStartScriptCopy(ActionEvent)
+}
+note top of com.example.demo2.app.AppController
+
+ * @author G.I.V.
+ * класс AppController Контроллер для связвания UI, то есть нашей заготовки app.fxml с JavaFX элементами(компонентами) в java
+ * fx:id в app.fxml должен быть равен названию перемной Элемента (к примеру экземпляру Button)
+ * Так же класс Контроллер служит для обработки собитий по нажатию этих элементов
+ * @since {@code }
+ 
+end note
+note left of com.example.demo2.app.AppController::currentNameFile
+ Одна из всех переменная объявленная как static , то есть это строка в глобальной области видимости, то есть она одна на всех и ее видно всем ниже в коде, так как она объявлена здесь
+end note
+note right of com.example.demo2.app.AppController::startScriptCopy
+
+     * Start Script Copy
+     
+end note
+note left of com.example.demo2.app.AppController::renameFile
+
+     * Rename of File
+     
+end note
+note left of com.example.demo2.app.AppController::setStage(Stage)
+
+     * @param stage Фундамент для сцены
+     
+end note
+note right of com.example.demo2.app.AppController::handleDefaultPathFolder(ActionEvent)
+
+     * @param actionEvent
+     
+end note
+note left of com.example.demo2.app.AppController::handlePathFolder(ActionEvent)
+
+     * @param actionEvent
+     
+end note
+note right of com.example.demo2.app.AppController::onActionStartListView(ActionEvent)
+
+     * @param event
+     
+end note
+note left of com.example.demo2.app.AppController::typeNameBackupCopy(ActionEvent)
+
+     * @param actionEvent
+     
+end note
+note right of com.example.demo2.app.AppController::handleChooseFileCopy(ActionEvent)
+
+     * @param actionEvent
+     
+end note
+note left of com.example.demo2.app.AppController::handleChooseDirectory(ActionEvent)
+
+     * Выбор директории для
+     *
+     * @param actionEvent
+     
+end note
+note right of com.example.demo2.app.AppController::handleDeleteFileCopy(ActionEvent)
+
+     * Удаление резервной копии
+     
+end note
+note left of com.example.demo2.app.AppController::handleAutoStartScript(ActionEvent)
+
+     * Запуск автоматизированного скрипта с периодичностью по времени
+     
+end note
+note right of com.example.demo2.app.AppController::handleRenameFile(ActionEvent)
+
+     * Переименование файла
+     
+end note
+note left of com.example.demo2.app.AppController::handleStartScriptCopy(ActionEvent)
+
+     * Запуск резервного копирования в текущий момент
+     
+end note
+
+
+
+javafx.fxml.Initializable <|.. com.example.demo2.app.AppController
+@enduml

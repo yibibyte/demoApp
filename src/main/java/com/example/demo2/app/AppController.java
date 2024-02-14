@@ -250,6 +250,19 @@ public class AppController implements Initializable {
 //                echo "Backup created on $(date +%F)" >> backup_report.txt
 //                du -sh /path/to/backup_directory >> backup_report.txt
 
+                // установка Scene Builder
+                //Настройка в IDEA
+                // https://stackoverflow.com/questions/53177828/failed-to-start-scene-builder
+                // Скачивание и установка
+                // https://github.com/gluonhq/scenebuilder/releases/tag/21.0.1
+                //
+
+                // Установка jdk
+                // https://docs.fedoraproject.org/en-US/quick-docs/installing-java/
+
+
+                // Список команд
+                // https://redos.red-soft.ru/base/manual/redos-manual/sup-yum/dnf-commands/
 
                 try {
                     ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", commandAll);
