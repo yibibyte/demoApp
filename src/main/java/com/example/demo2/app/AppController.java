@@ -470,11 +470,11 @@ public class AppController implements Initializable {
 
             System.out.println("Выбранный файл: " + chooseFileCopy.getAbsolutePath());
         } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Выбор файла отменен");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Выбор директории отменен");
             alert.setHeaderText("Внимание");
             alert.showAndWait();
 
-            System.out.println("Выбор файла отменен");
+            System.out.println("Выбор директории отменен");
         }
 
 
