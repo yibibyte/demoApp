@@ -202,7 +202,7 @@ public class AppController implements Initializable {
      */
 
     public void handleStartScript(ActionEvent actionEvent) {
-
+        // Cheking LocalDateTime
         if (selectDateTime.getLocalDateTime() == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Вы не выбрали дату или время");
             alert.setHeaderText("Внимание");
@@ -224,9 +224,6 @@ public class AppController implements Initializable {
                 //String commandTar = "tar -zcvf \"" + pathFolder.getText() + "/backup-`date '+%F'`.tar.gz\" /etc";
 
 
-
-
-
                 String commandTar = "sudo tar -cvzf \"" + pathFolder.getText() + "/backup-$(date +%F).tar.gz\" /etc";
                 String commandDu = "du -sh \"" + pathFolder.getText() + "\"/* >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt";
                 String commandEcho = "echo \"Резервная копия создана $(date +%F)\" >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt";
@@ -236,7 +233,6 @@ public class AppController implements Initializable {
                 //String commandEchoAndDu = "echo \"Резервная копия создана $(date +%F)\" >> \"" + pathFolder.getText() + "/log-$(date +%F)\".txt" + " && " + "du -s \"" + pathFolder.getText() + "\"/* >> \"log-$(date +%F)\".txt";
 
                 // du -s /home/rosa/Загрузки/Backup/* >> "log-$(date +%F)".txt
-
 
                 String commandEchoAndDu = commandEcho + " && " + commandDu;
                 String commandAll = commandTar + " && " + commandEcho + " && " + commandDu;
